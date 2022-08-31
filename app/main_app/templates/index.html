@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+	<h1 class="text-center mt-3 mb-4"><b>Sunset coin</b></h1>
+</div>
+
+{# TOP LEVEL #}
+<div class="row">
+	{% include 'levels/top.html' %}
+</div>
+<hr>
+{# HEADER SCHEDULE LEVEL #}
+<div class="row">
+	{% include 'levels/header_schedule.html' %}
+</div>
+{# BODY SCHEDULE LEVEL #}
+{% include 'levels/body_schedule.html' %}
+
+{% endblock %}
