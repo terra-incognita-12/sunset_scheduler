@@ -13,9 +13,18 @@
 </div>
 <div class="col-xs-12 col-lg-4 mb-3">
 	<div class="btn-group w-100" role="group">
-		<a class="btn btn-sm btn-primary" onclick="">+ Add</a>
+		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-form-collapse">+ Add</a>
 		<a class="btn btn-sm btn-primary" onclick="">* Edit</a>
 		<a class="btn btn-sm btn-primary" href="">Export</a>
 		<a class="btn btn-sm btn-info" href="">- Delete</a>
 	</div>
+    <div class="collapse mt-2" id="new-schedule-form-collapse">
+        <div class="card card-body">
+            <form id="" class="" method="" action="">
+                <h5>Add new schedule</h5>
+				{% csrf_token %}
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+        </div>
+    </div>
 </div>

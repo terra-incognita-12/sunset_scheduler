@@ -40,8 +40,22 @@
 <div class="row">
 	<div class="col-xs-12 col-lg-4">
 		<div class="btn-group" role="group">
-			<a class="btn btn-sm btn-primary" onclick="">+ Add new row</a>
+			<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
 			<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
 		</div>
 	</div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-lg-6">
+        <div class="collapse mt-2" id="new-schedule-row-form-collapse">
+            <div class="card card-body">
+                <form id="" class="" method="" action="">
+                    <h5>Add new row</h5>
+                    {% csrf_token %}
+                    <button class="btn btn-success" type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
