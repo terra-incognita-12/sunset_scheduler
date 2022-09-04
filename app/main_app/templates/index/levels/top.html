@@ -30,6 +30,10 @@
             <form id="" class="" method="" action="">
                 <h5>Add new default schedule</h5>
 				{% csrf_token %}
+                <div class="mb-3">
+                    <label>Some label</label>
+                    <input type="text" name="text" class="form-control">
+                </div>
 				<button class="btn btn-success" type="submit">Add</button>
 			</form>
         </div>
