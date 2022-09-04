@@ -1,0 +1,57 @@
+{% extends 'auth/auth_base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mt-5">
+        <h1 class="text-center">Welcome!</h1>
+    </div>
+    <div class="row mt-5">
+        <!-- SIGN IN -->
+        <div class="col-lg-6 col-xs-12 mb-3">
+            <a class="btn btn-primary w-100" data-bs-toggle="collapse" href="#signin-form-collapse" role="button" aria-expanded="false" aria-controls="signin-form-collapse"><b>Sign in</b> if you have an account</a>
+            <div class="collapse mt-2" id="signin-form-collapse">
+                <div class="card card-body">
+                    <h2 class="text-center">Login</h2> 
+                    <form method="" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username">Username:</label>
+                            <input class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+                        </div>
+                        <div class="mb-1">
+                            <label for="id_password1">Password:</label>
+                            <input class="form-control" type="password" name="password" autocomplete="new-password" required id="id_password">
+                        </div>
+                        <div class="mb-2">Forgot password? <a href="">Reset password</a></div>
+                        <input type="submit" value="Login" class="btn btn-success">
+                    </form>  
+                </div>  
+            </div>
+        </div>
+
+        <!-- SIGN UP -->
+        <div class="col-lg-6 col-xs-12 mb-3">
+            <a class="btn btn-secondary w-100" data-bs-toggle="collapse" href="#signup-form-collapse" role="button" aria-expanded="false" aria-controls="signup-form-collapse"><b>Sign up</b> if you don't have your scheduler yet!</a>
+            <div class="collapse mt-2" id="signup-form-collapse">
+                <div class="card card-body">
+                    <h2 class="text-center">Register</h2> 
+                    <form method="" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username">Username:</label>
+                            <input class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+                        </div>
+                        <div class="mb-1">
+                            <label for="id_password1">Password:</label>
+                            <input class="form-control" type="password" name="password" autocomplete="new-password" required id="id_password">
+                        </div>
+                        <div class="mb-2">Forgot password? <a href="">Reset password</a></div>
+                        <input type="submit" value="Login" class="btn btn-success">
+                    </form>    
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

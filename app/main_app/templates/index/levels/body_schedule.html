@@ -1,0 +1,61 @@
+<div class="row">
+	<div class="col-12 text-start">
+		<h4>Begins <b id="">Today</b></h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="table-responsive-md mb-2">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Monday</th>
+					<th scope="col">Tuesday</th>
+					<th scope="col">Wednesday</th>
+					<th scope="col">Thursday</th>
+					<th scope="col">Friday</th>
+					<th scope="col">Saturday</th>
+					<th scope="col">Sunday</th>
+		            <th scope="col">Total Hours</th>
+				</tr>
+				<tr>
+					<th scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+					<th class="date-day-of-week" scope="col"></th>
+		            <th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-lg-4">
+		<div class="btn-group" role="group">
+			<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
+			<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-lg-6">
+        <div class="collapse mt-2" id="new-schedule-row-form-collapse">
+            <div class="card card-body">
+                <form id="" class="" method="" action="">
+                    <h5>Add new row</h5>
+                    {% csrf_token %}
+                    <button class="btn btn-success" type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

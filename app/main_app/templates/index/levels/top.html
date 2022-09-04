@@ -1,0 +1,113 @@
+<!-- DEFAULT TIME -->
+<div class="col-xs-12 col-lg-4 mb-3">
+	<h3>Default schedules</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Total Hours</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" id=""><a class="" onclick="edit_data('default-schedule', 1)">Entity</a></th>
+                    <td id="">Entity</td>
+                    <td id="">Entity</td>
+                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div class="btn-group" role="group">
+		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#defult-schedules-form-collapse" role="button" aria-expanded="false" aria-controls="defult-schedules-form-collapse">+ Add</a>
+		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
+	</div>
+    <div class="collapse mt-2" id="defult-schedules-form-collapse">
+        <div class="card card-body">
+            <form id="" class="" method="" action="">
+                <h5>Add new default schedule</h5>
+				{% csrf_token %}
+                <div class="mb-3">
+                    <label>Some label</label>
+                    <input type="text" name="text" class="form-control">
+                </div>
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+        </div>
+    </div>
+</div>
+<!-- EMPLOYEES -->
+<div class="col-xs-12 col-lg-4 mb-3">
+	<h3>Employees</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Department</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" id=""><a class="" onclick="">Entity</a></th>
+                    <td id="">Entity</td>
+                    <td id="">Entity</td>
+                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div class="btn-group" role="group">
+		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#employees-form-collapse" role="button" aria-expanded="false" aria-controls="employees-form-collapse">+ Add</a>
+		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
+	</div>
+    <div class="collapse mt-2" id="employees-form-collapse">
+        <div class="card card-body">
+            <form id="" class="" method="" action="">
+                <h5>Add new employee</h5>
+				{% csrf_token %}
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+        </div>
+    </div>
+</div>
+<!-- DEPARTMENTS -->
+<div class="col-xs-12 col-lg-4 mb-3">
+	<h3>Departments</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Employees count</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" id=""><a class="" onclick="">Entity</a></th>
+                    <td id="">Entity</td>
+                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div class="btn-group" role="group">
+		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#departments-form-collapse" role="button" aria-expanded="false" aria-controls="departments-form-collapse">+ Add</a>
+		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
+	</div>
+    <div class="collapse mt-2" id="departments-form-collapse">
+        <div class="card card-body">
+            <form id="" class="" method="" action="">
+                <h5>Add new department</h5>
+				{% csrf_token %}
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+        </div>
+    </div>
+</div>

@@ -299,6 +299,7 @@ pyvenv.cfg
 pip-selfcheck.json
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -322,5 +323,7 @@ pip-selfcheck.json
 
 # Ignore code-workspaces
 *.code-workspace
+
+launch.json
 
 # End of https://www.toptal.com/developers/gitignore/api/django,python,venv,visualstudiocode,macos
