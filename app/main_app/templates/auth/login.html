@@ -36,17 +36,49 @@
             <div class="collapse mt-2" id="signup-form-collapse">
                 <div class="card card-body">
                     <h2 class="text-center">Register</h2> 
-                    <form method="" action="">
+                    <form class="needs-validation" method="" action="">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="id_username">Username:</label>
-                            <input class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+                            <div class="mb-2"> 
+                                {{ register_form.username.label_tag }}
+                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left">
+                                    {{ register_form.username }}
+                                    <span class="invalid-feedback">
+                                        Username is already taken
+                                    </span>
+                                    <span class="valid-feedback">
+                                        Username is good to take
+                                    </span>
+                                </span>
+                                <div class="mb-2 mt-1">
+                                    <button type="button" class="btn btn-info btn-sm" onclick="check_user_avaliability();">Check avaliability</button>
+                                </div>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.email.label_tag }}
+                                {{ register_form.email }}
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.password1.label_tag }}
+                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.password1.help_text }}" data-bs-placement="left" data-bs-html="true">
+                                    {{ register_form.password1 }}
+                                </span>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.password2.label_tag }}
+                                {{ register_form.password2 }}
+                                <div class="invalid-feedback">
+                                    Passwords don't match
+                                </div>
+                                <div class="valid-feedback">
+                                    Passwords match
+                                </div>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.company_name.label_tag }}
+                                {{ register_form.company_name }}
+                            </div>
                         </div>
-                        <div class="mb-1">
-                            <label for="id_password1">Password:</label>
-                            <input class="form-control" type="password" name="password" autocomplete="new-password" required id="id_password">
-                        </div>
-                        <div class="mb-2">Forgot password? <a href="">Reset password</a></div>
                         <input type="submit" value="Login" class="btn btn-success">
                     </form>    
                 </div>  
