@@ -3,50 +3,61 @@ window.onload = function() {
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 };
 
-function check_user_avaliability() {
-    // const username = document.getElementById('register_user');
-    // username.classList.add('is-valid');
-}
-
 function clear_validation_input(elem) {
-    if (!elem.value) { 
-        elem.classList.remove('is-valid')
-        elem.classList.remove('is-invalid')
-    }
+    elem.classList.remove('is-valid')
+    elem.classList.remove('is-invalid')
 } 
 
-function password_matching() {
-    const password1 = document.getElementById('register_pass1');
-    const password2 = document.getElementById('register_pass2');
-    if (password1.value) {
-        if (password1.value != password2.value) {
-            password2.classList.remove('is-valid');
-            password2.classList.add('is-invalid');
+function validate_register() {
+    var result = true;
+
+    // username, email, password
+    const re_array = [
+        /^[a-zA-Z0-9_\.]+$/,
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/
+    ];
+
+    const elem_array = [
+        document.getElementById('register_user'),
+        document.getElementById('register_email'),
+        document.getElementById('register_pass1')
+    ]
+
+    // Regex validation
+    for (let i = 0; i < re_array.length; i++) {
+        if (re_array[i].test(elem_array[i].value)) {
+            clear_validation_input(elem_array[i]);
+            elem_array[i].classList.add('is-valid');
         } else {
-            password2.classList.remove('is-invalid');
-            password2.classList.add('is-valid');
+            clear_validation_input(elem_array[i]);
+            elem_array[i].classList.add('is-invalid');
+            result = false;
         }
+    }
+
+    // Non-regex validation
+    pass2 = document.getElementById('register_pass2');
+    if (!elem_array[2].value){
+        clear_validation_input(pass2);
+    } else if (pass2.value == elem_array[2].value) {
+        clear_validation_input(pass2);
+        pass2.classList.add('is-valid');
     } else {
-        clear_validation_input(password2);
-    } 
+        clear_validation_input(pass2);
+        pass2.classList.add('is-invalid');
+        result = false;
+    }
+
+    company = document.getElementById('register_company');
+    if (company.value) {
+        clear_validation_input(company);
+        company.classList.add('is-valid');
+    } else {
+        clear_validation_input(company);
+        company.classList.add('is-invalid');
+        result = false;
+    }
+
+    return result;
 }
-
-// (() => {
-//   'use strict'
-
-//   // Fetch all the forms we want to apply custom Bootstrap validation styles to
-//   const forms = document.querySelectorAll('.needs-validation')
-
-//   // Loop over them and prevent submission
-//   Array.from(forms).forEach(form => {
-//     form.addEventListener('submit', event => {
-//       if (!form.checkValidity()) {
-//         event.preventDefault()
-//         event.stopPropagation()
-//       }
-
-//       form.classList.add('was-validated')
-//       console.log(form);
-//     }, false)
-//   })
-// })()
