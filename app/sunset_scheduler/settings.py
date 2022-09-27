@@ -25,9 +25,15 @@ SECRET_KEY = 'django-insecure-frxof#&cby-%$x%@=c_)*q$_xhf@9@x4xc-^8wnjx@57cj@af5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 15 minutes link expiration
+PASSWORD_RESET_TIMEOUT = 900
+
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'users.customuser'
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'main_app',
+    'users',
 ]
 
 MIDDLEWARE = [

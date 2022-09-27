@@ -1,8 +1,17 @@
-{% extends 'auth/auth_base.html' %}
+{% extends 'users/users_base.html' %}
 
 {% block content %}
-
 <div class="container">
+    {% if messages %}
+        
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+    {% endif %}
     <div class="mt-5">
         <h1 class="text-center">Welcome!</h1>
     </div>
@@ -13,17 +22,17 @@
             <div class="collapse mt-2" id="signin-form-collapse">
                 <div class="card card-body">
                     <h2 class="text-center">Login</h2> 
-                    <form method="" action="">
+                    <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="id_username">Username:</label>
-                            <input class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+                        <div class="mb-2">
+                            {{ login_form.email.label_tag }}
+                            {{ login_form.email }}
                         </div>
                         <div class="mb-1">
-                            <label for="id_password1">Password:</label>
-                            <input class="form-control" type="password" name="password" autocomplete="new-password" required id="id_password">
+                            {{ login_form.password.label_tag }}
+                            {{ login_form.password }}
                         </div>
-                        <div class="mb-2">Forgot password? <a href="">Reset password</a></div>
+                        <div class="mb-2">Forgot password? <a href="{% url 'password_reset' %}">Reset password</a></div>
                         <input type="submit" value="Login" class="btn btn-success">
                     </form>  
                 </div>  
@@ -36,12 +45,12 @@
             <div class="collapse mt-2" id="signup-form-collapse">
                 <div class="card card-body">
                     <h2 class="text-center">Register</h2> 
-                    <form class="needs-validation" method="" action="">
+                    <form method="POST" action="{% url 'register' %}">
                         {% csrf_token %}
                         <div class="mb-3">
                             <div class="mb-2"> 
                                 {{ register_form.username.label_tag }}
-                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left">
+                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left" data-bs-html="true">
                                     {{ register_form.username }}
                                     <span class="invalid-feedback">
                                         Username is already taken
@@ -50,9 +59,11 @@
                                         Username is good to take
                                     </span>
                                 </span>
+                                <!--
                                 <div class="mb-2 mt-1">
                                     <button type="button" class="btn btn-info btn-sm" onclick="check_user_avaliability();">Check avaliability</button>
                                 </div>
+                                -->
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.email.label_tag }}
@@ -79,7 +90,17 @@
                                 {{ register_form.company_name }}
                             </div>
                         </div>
-                        <input type="submit" value="Login" class="btn btn-success">
+                        <input type="submit" value="Register" class="btn btn-success">
+
+                        {% for field in register_form %}
+                            <div class="mt-3">
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li class="text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
                     </form>    
                 </div>  
             </div>

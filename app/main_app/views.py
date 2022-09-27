@@ -1,16 +1,6 @@
 from django.shortcuts import render
-from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
-from .forms import RegisterForm
-
+@login_required(login_url='login_index')
 def index(request):
 	return render(request, 'index/index.html', {})
-
-def login(request):
-	register_form = RegisterForm()
-
-	context = {
-		'register_form': register_form,
-	}
-
-	return render(request, 'auth/login.html', context)
