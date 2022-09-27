@@ -48,7 +48,7 @@ class RegisterForm(UserCreationForm):
 	def clean_email(self):
 		email = self.cleaned_data.get('email').lower()
 		try:
-			account = Account.objects.get(email=email)
+			user = CustomUser.objects.get(email=email)
 		except Exception as e:
 			return email
 		raise forms.ValidationError(f'Email {email} is already in use')
@@ -64,7 +64,7 @@ class RegisterForm(UserCreationForm):
 			raise forms.ValidationError("Username allowed letters, digits, also dot and underscore (can't duplicate, go one after another, be last or first symbol)")
 
 		try:
-			account = Account.objects.get(username=username)
+			user = CustomUser.objects.get(username=username)
 		except Exception as e:
 			return username
 		

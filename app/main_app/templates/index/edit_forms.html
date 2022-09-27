@@ -1,4 +1,4 @@
-<div class="modal" id="default-schedule-modal" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal" id="default_schedule_modal" data-bs-backdrop="static" data-bs-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -6,10 +6,10 @@
         		<button type="button" class="btn-close" onclick="close_modal()"></button>
 			</div>
 			<div class="modal-body">
-				<form id="" method="" action="">
+				<form id="default_schedule_update_form" method="POST" action="{% url 'default_schedule_update' %}">
+                    {% csrf_token %}
 		            <div class="mb-3">
-		                <label>Some label</label>
-		                <input type="text" name="text" class="form-control">
+		                {{ default_schedule_form.as_table }}
 		            </div>
 					<button class="btn btn-success" type="submit">Update</button>
 				</form>
