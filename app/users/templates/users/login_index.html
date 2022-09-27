@@ -45,11 +45,16 @@
             <div class="collapse mt-2" id="signup-form-collapse">
                 <div class="card card-body">
                     <h2 class="text-center">Register</h2> 
+<<<<<<< HEAD:app/users/templates/users/login_index.html
                     <form method="POST" action="{% url 'register' %}">
+=======
+                    <form method="" action="" onsubmit="return validate_register()" novalidate>
+>>>>>>> fdd9cc19713f0338fe0dfd29d47d6a3668a4c0a5:app/main_app/templates/auth/login.html
                         {% csrf_token %}
                         <div class="mb-3">
                             <div class="mb-2"> 
                                 {{ register_form.username.label_tag }}
+<<<<<<< HEAD:app/users/templates/users/login_index.html
                                 <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left" data-bs-html="true">
                                     {{ register_form.username }}
                                     <span class="invalid-feedback">
@@ -62,18 +67,27 @@
                                 <!--
                                 <div class="mb-2 mt-1">
                                     <button type="button" class="btn btn-info btn-sm" onclick="check_user_avaliability();">Check avaliability</button>
+=======
+                                {{ register_form.username }}
+                                <div class="invalid-feedback">
+                                    Usernames can only have: Letters, numbers, dots and underscores. Should be at least 4 symbols and less than 50
+>>>>>>> fdd9cc19713f0338fe0dfd29d47d6a3668a4c0a5:app/main_app/templates/auth/login.html
                                 </div>
                                 -->
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.email.label_tag }}
                                 {{ register_form.email }}
+                                <div class="invalid-feedback">
+                                    Enter proper email address
+                                </div>
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.password1.label_tag }}
-                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.password1.help_text }}" data-bs-placement="left" data-bs-html="true">
-                                    {{ register_form.password1 }}
-                                </span>
+                                {{ register_form.password1 }}
+                                <div class="invalid-feedback">
+                                    Password should been from 6 to 16 symbols, have at least one number and one special character
+                                </div>
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.password2.label_tag }}
@@ -81,16 +95,17 @@
                                 <div class="invalid-feedback">
                                     Passwords don't match
                                 </div>
-                                <div class="valid-feedback">
-                                    Passwords match
-                                </div>
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.company_name.label_tag }}
                                 {{ register_form.company_name }}
+                                <div class="invalid-feedback">
+                                    Provide company name
+                                </div>
                             </div>
                         </div>
                         <input type="submit" value="Register" class="btn btn-success">
+<<<<<<< HEAD:app/users/templates/users/login_index.html
 
                         {% for field in register_form %}
                             <div class="mt-3">
@@ -101,6 +116,8 @@
                                 </ul>
                             </div>
                         {% endfor %}
+=======
+>>>>>>> fdd9cc19713f0338fe0dfd29d47d6a3668a4c0a5:app/main_app/templates/auth/login.html
                     </form>    
                 </div>  
             </div>
