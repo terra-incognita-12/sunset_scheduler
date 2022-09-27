@@ -53,18 +53,7 @@
                                 {{ register_form.username.label_tag }}
                                 <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left" data-bs-html="true">
                                     {{ register_form.username }}
-                                    <span class="invalid-feedback">
-                                        Username is already taken
-                                    </span>
-                                    <span class="valid-feedback">
-                                        Username is good to take
-                                    </span>
                                 </span>
-                                <!--
-                                <div class="mb-2 mt-1">
-                                    <button type="button" class="btn btn-info btn-sm" onclick="check_user_avaliability();">Check avaliability</button>
-                                </div>
-                                -->
                             </div>
                             <div class="mb-2"> 
                                 {{ register_form.email.label_tag }}
