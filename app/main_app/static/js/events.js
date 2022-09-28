@@ -35,7 +35,7 @@ function edit_data(table_name, id) {
     modal.style.display = 'block';
 }
 
-// --- onload functions ---
+// --- ONLOAD FUNCTIONS ---
 
 function default_schedule_hours_total() {
     let elements = document.querySelectorAll(`[id$="-default_schedule_total"]`);
@@ -45,7 +45,7 @@ function default_schedule_hours_total() {
     }
 }
 
-// --- modal ---
+// --- MODAL ---
 
 function close_modal() {
     if (!modal) { return; }
@@ -55,7 +55,7 @@ function close_modal() {
     }
 }
 
-// --- other functions ---
+// --- OTHER FUNCTIONS ---
 
 function convert_date_to_iso(date, add_days_to_date = 0) {
     // Get rid of punctuation marks in date (origin format: Aug. 1, 2022)

@@ -2,7 +2,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5>Update default schedule</h5>
+				<h5>Update Default Schedule</h5>
         		<button type="button" class="btn-close" onclick="close_modal()"></button>
 			</div>
 			<div class="modal-body">
@@ -10,6 +10,46 @@
                     {% csrf_token %}
 		            <div class="mb-3">
 		                {{ default_schedule_form.as_table }}
+		            </div>
+					<button class="btn btn-success" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="department_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5>Update Department</h5>
+        		<button type="button" class="btn-close" onclick="close_modal()"></button>
+			</div>
+			<div class="modal-body">
+				<form id="department_update_form" method="POST" action="{% url 'department_update' %}">
+                    {% csrf_token %}
+		            <div class="mb-3">
+		                {{ department_form.as_table }}
+		            </div>
+					<button class="btn btn-success" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="employee_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5>Update Employee</h5>
+        		<button type="button" class="btn-close" onclick="close_modal()"></button>
+			</div>
+			<div class="modal-body">
+				<form id="employee_update_form" method="POST" action="{% url 'employee_update' %}">
+                    {% csrf_token %}
+		            <div class="mb-3">
+		                {{ employee_form.as_table }}
 		            </div>
 					<button class="btn btn-success" type="submit">Update</button>
 				</form>

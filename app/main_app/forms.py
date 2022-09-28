@@ -3,6 +3,8 @@ from django import forms
 
 from .models import (
 	DefaultSchedule,
+    Department,
+    Employee
 )
 
 class DefaultScheduleForm(forms.ModelForm):
@@ -25,3 +27,21 @@ class DefaultScheduleForm(forms.ModelForm):
 		else: raise forms.ValidationError(f'Incorrect format time: "{schedule_time}", corr. example: "11a-9p"')
 
 		return schedule_time
+
+class DepartmentForm(forms.ModelForm):
+	class Meta:
+		model = Department
+		fields = ['name']
+		widgets = {
+			'name': forms.TextInput(attrs={'class': 'form-control'})
+		}
+
+class EmployeeForm(forms.ModelForm):
+	class Meta:
+		model = Employee
+		fields = ['name', 'number', 'department']
+		widgets = {
+			'name': forms.TextInput(attrs={'class': 'form-control'}),
+			'number': forms.NumberInput(attrs={'class': 'form-control'}),
+			'department': forms.Select(attrs={'class': 'form-select'}),
+		}
