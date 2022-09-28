@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import (
     index,
+    settings,
 
     default_schedule_add,
     default_schedule_update,
@@ -24,6 +25,7 @@ from .views import (
 
 urlpatterns = [
     path('', index, name='index'),
+    path('settings', settings, name='settings'),
 
     path('default_schdeule/add', default_schedule_add, name='default_schedule_add'),
     path('default_schedule/update', default_schedule_update, name='default_schedule_update'),

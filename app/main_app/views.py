@@ -49,6 +49,10 @@ def index(request):
 
 	return render(request, 'index/index.html', context)
 
+@login_required(login_url='login_index')
+def settings(request):
+	return render(request, 'settings.html', {})
+
 ### DEFAULT SCHEDULE ###
 
 @login_required(login_url='login_index')
