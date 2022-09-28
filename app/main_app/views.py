@@ -9,13 +9,16 @@ from django.views.decorators.http import require_http_methods
 from .forms import (
 	DefaultScheduleForm,
 	DepartmentForm,
-	EmployeeForm
+	EmployeeForm,
+	ScheduleProfileForm,
 )
 
 from .models import (
 	DefaultSchedule,
 	Department,
-	Employee
+	Employee,
+	ScheduleProfile,
+	CurrentSchedule,
 )
 
 @login_required(login_url='login_index')
@@ -23,19 +26,25 @@ def index(request):
 	default_schedules = DefaultSchedule.objects.filter(user=request.user)
 	departments = Department.objects.filter(user=request.user).annotate(employees_count=Count('employee'))
 	employees = Employee.objects.filter(user=request.user)
+	schedule_profiles = ScheduleProfile.objects.filter(user=request.user)
+	current_schedule = CurrentSchedule.objects.filter(schedule_profile__user=request.user).first()
 
 	default_schedule_form = DefaultScheduleForm()
 	department_form = DepartmentForm()
 	employee_form = EmployeeForm()
+	schedule_profile_form = ScheduleProfileForm()
 
 	context = {
 		'default_schedules': default_schedules,
 		'departments': departments,
 		'employees': employees,
+		'schedule_profiles': schedule_profiles,
+		'current_schedule': current_schedule,
 
 		'default_schedule_form': default_schedule_form,
 		'department_form': department_form,
 		'employee_form': employee_form,
+		'schedule_profile_form': schedule_profile_form,
 	}
 
 	return render(request, 'index/index.html', context)
@@ -142,5 +151,59 @@ def employee_delete(request):
 	for pk in request.POST.getlist('employee_delete'):
 		employee = get_object_or_404(Employee, pk=pk)
 		employee.delete()
+	
+	return redirect('index')
+
+### SCHEDULE PROFILE ###
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def schedule_profile_add(request):
+	form = ScheduleProfileForm(request.POST)
+	if form.is_valid():
+		schedule_profile = ScheduleProfile(user=request.user, **form.cleaned_data)
+		schedule_profile.save()
+	else:
+		messages.error(request, form.errors)
+	
+	return redirect('index')
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def schedule_profile_update(request):
+	pk = request.POST['hidden_id']
+	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
+	form = ScheduleProfileForm(request.POST, instance=schedule_profile)
+	if form.is_valid():
+		schedule_profile.save()
+	else:
+		messages.error(request, form.errors)
+	return redirect('index')
+
+@login_required(login_url='login_index')
+@require_http_methods(['GET'])
+def schedule_profile_delete(request, pk):
+	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
+	schedule_profile.delete()
+
+	return redirect('index')
+
+### CURRENT SCHEDULE ###
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def current_schedule_pick(request):
+	pk = request.POST['schedule_select']
+	if not pk:
+		messages.error(request, 'Pick up correct schedule')
+		return redirect('index')
+
+	current_schedule = CurrentSchedule.objects.filter(schedule_profile__user=request.user).first()
+	if current_schedule:
+		current_schedule.delete()
+
+	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
+	current_schedule = CurrentSchedule(schedule_profile=schedule_profile)
+	current_schedule.save()
 	
 	return redirect('index')

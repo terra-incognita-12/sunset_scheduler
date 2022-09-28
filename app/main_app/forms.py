@@ -4,7 +4,8 @@ from django import forms
 from .models import (
 	DefaultSchedule,
     Department,
-    Employee
+    Employee,
+    ScheduleProfile
 )
 
 class DefaultScheduleForm(forms.ModelForm):
@@ -44,4 +45,18 @@ class EmployeeForm(forms.ModelForm):
 			'name': forms.TextInput(attrs={'class': 'form-control'}),
 			'number': forms.NumberInput(attrs={'class': 'form-control'}),
 			'department': forms.Select(attrs={'class': 'form-select'}),
+		}
+
+class ScheduleProfileForm(forms.ModelForm):
+	class Meta:
+		model = ScheduleProfile
+		fields = ['name', 'begin_date']
+		widgets = {
+			'name': forms.TextInput(attrs={'class': 'form-control'}),
+			'begin_date': forms.DateInput(
+				format=('%Y-%m-%d'),
+				attrs={'class': 'form-control', 
+					'placeholder': 'Select a date',
+					'type': 'date'
+				}),
 		}

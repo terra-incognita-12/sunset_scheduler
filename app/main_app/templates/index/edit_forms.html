@@ -1,3 +1,4 @@
+<!-- DEFAULT_SCHEDULE -->
 <div class="modal" id="default_schedule_modal" data-bs-backdrop="static" data-bs-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -17,7 +18,7 @@
 		</div>
 	</div>
 </div>
-
+<!-- DEPARTMENT -->
 <div class="modal" id="department_modal" data-bs-backdrop="static" data-bs-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -37,7 +38,7 @@
 		</div>
 	</div>
 </div>
-
+<!-- EMPLOYEE -->
 <div class="modal" id="employee_modal" data-bs-backdrop="static" data-bs-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -50,6 +51,26 @@
                     {% csrf_token %}
 		            <div class="mb-3">
 		                {{ employee_form.as_table }}
+		            </div>
+					<button class="btn btn-success" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- SCHEDULE PROFILE -->
+<div class="modal" id="schedule_profile_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5>Update Schedule</h5>
+        		<button type="button" class="btn-close" onclick="close_modal()"></button>
+			</div>
+			<div class="modal-body">
+				<form id="schedule_profile_update_form" method="POST" action="{% url 'schedule_profile_update' %}">
+                    {% csrf_token %}
+		            <div class="mb-3">
+		                {{ schedule_profile_form.as_table }}
 		            </div>
 					<button class="btn btn-success" type="submit">Update</button>
 				</form>

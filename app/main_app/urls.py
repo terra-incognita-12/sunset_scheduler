@@ -14,6 +14,12 @@ from .views import (
     employee_add,
     employee_update,
     employee_delete,
+
+    schedule_profile_add,
+    schedule_profile_update,
+    schedule_profile_delete,
+
+    current_schedule_pick,
 )
 
 urlpatterns = [
@@ -30,4 +36,10 @@ urlpatterns = [
     path('employee/add', employee_add, name='employee_add'),
     path('employee/update', employee_update, name='employee_update'),
     path('employee/delete', employee_delete, name='employee_delete'),
+
+    path('schedule_profile/add', schedule_profile_add, name='schedule_profile_add'),
+    path('schedule_profile/update', schedule_profile_update, name='schedule_profile_update'),
+    path('schedule_profile/delete/<int:pk>', schedule_profile_delete, name='schedule_profile_delete'),
+
+    path('current_schedule', current_schedule_pick, name='current_schedule_pick'),
 ]
