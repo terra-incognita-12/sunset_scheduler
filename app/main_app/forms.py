@@ -86,3 +86,39 @@ class ScheduleDetailForm(forms.ModelForm):
 			'sat_duty': forms.TextInput(attrs={'class': 'form-control'}),
 			'sun_duty': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def clean(self):
+        time_list = [
+            self.cleaned_data.get('mon_time'),
+            self.cleaned_data.get('tue_time'),
+            self.cleaned_data.get('wed_time'),
+            self.cleaned_data.get('thr_time'),
+            self.cleaned_data.get('fri_time'),
+            self.cleaned_data.get('sat_time'),
+            self.cleaned_data.get('sun_time')
+        ]
+        duty_list = [
+            self.cleaned_data.get('mon_duty'),
+            self.cleaned_data.get('tue_duty'),
+            self.cleaned_data.get('wed_duty'),
+            self.cleaned_data.get('thr_duty'),
+            self.cleaned_data.get('fri_duty'),
+            self.cleaned_data.get('sat_duty'),
+            self.cleaned_data.get('sun_duty')
+        ]
+
+        for i in range(len(time_list)):
+            if not time_list[i]:
+                if duty_list[i]:
+                    raise forms.ValidationError(f"Day off can't have duty")
+                else: continue
+            patt = re.search("^(1[0-2]|[1-9])(a|p)-(1[0-2]|[1-9])(a|p)$", time_list[i])
+            if patt:
+                time_gaps = time_list[i].split('-')
+                if time_gaps[0] == time_gaps[1]:
+                    raise forms.ValidationError(f'Wrong time gap: "{time_list[i]}"')
+            else:
+                raise forms.ValidationError(f'Incorrect format time: "{time_list[i]}", corr. example: "11a-9p"')
+
+        return self.cleaned_data
+            

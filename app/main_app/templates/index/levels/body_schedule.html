@@ -35,13 +35,13 @@
                     </tr>
                     <tr>
                         <th scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
-                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -50,41 +50,41 @@
                         <tr>
                             <th scope="row" id="{{ elem.id }}-schedule_detail_employee"><a class="" onclick="edit_data('schedule_detail', {{ elem.id }})">{{ elem.employee }}</a></th>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_mon_time">{{ elem.mon_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_mon_time" class="weekday">{{ elem.mon_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_mon_duty">{{ elem.mon_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.mon_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_tue_time">{{ elem.tue_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_tue_time" class="weekday">{{ elem.tue_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_tue_duty">{{ elem.tue_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.tue_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_wed_time">{{ elem.wed_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_wed_time" class="weekday">{{ elem.wed_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_wed_duty">{{ elem.wed_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.wed_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_thr_time">{{ elem.thr_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_thr_time" class="weekday">{{ elem.thr_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_thr_duty">{{ elem.thr_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.thr_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_fri_time">{{ elem.fri_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_fri_time" class="weekday">{{ elem.fri_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_fri_duty">{{ elem.fri_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.fri_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_sat_time">{{ elem.sat_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_sat_time" class="weekday">{{ elem.sat_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_sat_duty">{{ elem.sat_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.sat_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_sun_time">{{ elem.sun_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_sun_time" class="weekday">{{ elem.sun_time|default_if_none:"Off" }}</div>
                                 <div id="{{ elem.id }}-schedule_detail_sun_duty">{{ elem.sun_duty|default_if_none:"" }}</div>
                                 <div class="schedule_time_beigns" schedule="{{ elem.sun_time }}"></div>
                             </td>
-                            <td></td>
+                            <td class="text-center" id="{{ elem.id }}-week_total_hours"></td>
                             <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="schedule_detail_delete"></td>
                         </tr>
                     {% endfor %}

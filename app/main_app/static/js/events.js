@@ -2,6 +2,8 @@ let modal = null;
 
 window.onload = function() {
     default_schedule_hours_total();
+    dates_of_week();
+    week_hours_total();
 }
 
 function edit_data(table_name, id) {
@@ -18,7 +20,6 @@ function edit_data(table_name, id) {
     form.appendChild(hidden_id);
 
     for (var i = 0; i < form_inputs.length; i++){
-        console.log(form_inputs.item(i));
         if (form_inputs.item(i).type == 'select-one') {
             options = form_inputs.item(i);
             for (var j = 0; j < options.length; j++) {
@@ -43,10 +44,47 @@ function edit_data(table_name, id) {
 // --- ONLOAD FUNCTIONS ---
 
 function default_schedule_hours_total() {
-    let elements = document.querySelectorAll(`[id$="-default_schedule_total"]`);
+    const elements = document.querySelectorAll(`[id$="-default_schedule_total"]`);
     for (var i = 0; i < elements.length; i++) {
         hours = elements.item(i).getAttribute('schedule');
         elements.item(i).innerText = calc_schedule_total(hours);
+    }
+}
+
+function dates_of_week() {
+    const date = document.querySelector(`[id$="-schedule_profile_begin_date"`).innerText;
+    const date_elemetns = document.getElementsByClassName('date_weekday');
+
+    for (var i = 0; i < date_elemetns.length; i++) {
+        format_date = convert_date_to_iso(date, i).split('-');
+        date_elemetns.item(i).innerText = `${format_date[1]}/${format_date[2]}/${format_date[0]}`;
+    }
+}
+
+function week_hours_total() {
+    const day_elements = document.getElementsByClassName('weekday');
+    const week_total_elements = document.querySelectorAll(`[id$="-week_total_hours"]`);
+    
+    let totals = [];
+    var week_iter = 0;
+    var total = 0;
+
+    for (var i = 0; i < day_elements.length; i++) {
+        total += calc_schedule_total(day_elements.item(i).innerText)
+        week_iter += 1;
+        if (week_iter == 7) {
+            totals.push(total);
+            total = 0;
+            week_iter = 0;
+        }
+    }
+
+    for (var i = 0; i < week_total_elements.length; i++) {
+        if (totals[i] > 40) {
+            week_total_elements.item(i).innerHTML = `<b>${totals[i]} <span class="text-danger">(OVERTIME)</span></b>`;
+        } else {
+            week_total_elements.item(i).innerHTML = `<b>${totals[i]}</b>`;
+        }
     }
 }
 

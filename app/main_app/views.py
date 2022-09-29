@@ -226,13 +226,16 @@ def current_schedule_pick(request):
 @login_required(login_url='login_index')
 @require_http_methods(['POST'])
 def schedule_detail_add(request):
-	form = ScheduleDetailForm(request.POST)
 	pk = request.POST['schedule_profile']
-
 	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
+	form = ScheduleDetailForm(request.POST)
 	if form.is_valid():
-		schedule_detail = ScheduleDetail(schedule_profile=schedule_profile, **form.cleaned_data)
-		schedule_detail.save()
+		schedule_detail_check_duplicate = ScheduleDetail.objects.filter(schedule_profile=schedule_profile, employee=form.cleaned_data.get('employee')).first()
+		if schedule_detail_check_duplicate:
+			messages.error(request, f"Employee \"{form.cleaned_data.get('employee')}\" already in schedule")
+		else:
+			schedule_detail = ScheduleDetail(schedule_profile=schedule_profile, **form.cleaned_data)
+			schedule_detail.save()
 	else:
 		messages.error(request, form.errors)
 	
@@ -241,13 +244,20 @@ def schedule_detail_add(request):
 @login_required(login_url='login_index')
 @require_http_methods(['POST'])
 def schedule_detail_update(request):
+	schedule_profile_pk = request.POST['schedule_profile']
 	pk = request.POST['hidden_id']
 	schedule_detail = get_object_or_404(ScheduleDetail, pk=pk)
+	schedule_profile = get_object_or_404(ScheduleProfile, pk=schedule_profile_pk)
 	form = ScheduleDetailForm(request.POST, instance=schedule_detail)
 	if form.is_valid():
-		schedule_detail.save()
+		schedule_detail_check_duplicate = ScheduleDetail.objects.filter(schedule_profile=schedule_profile, employee=form.cleaned_data.get('employee')).first()
+		if schedule_detail_check_duplicate and str(schedule_detail_check_duplicate.pk) != pk:
+			messages.error(request, f"Employee \"{form.cleaned_data.get('employee')}\" already in schedule")
+		else:
+			schedule_detail.save()
 	else:
 		messages.error(request, form.errors)
+			
 	return redirect('index')
 
 @login_required(login_url='login_index')
