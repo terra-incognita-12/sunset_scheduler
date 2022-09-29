@@ -21,6 +21,10 @@ from .views import (
     schedule_profile_delete,
 
     current_schedule_pick,
+
+    schedule_detail_add,
+    schedule_detail_update,
+    schedule_detail_delete,
 )
 
 urlpatterns = [
@@ -44,4 +48,8 @@ urlpatterns = [
     path('schedule_profile/delete/<int:pk>', schedule_profile_delete, name='schedule_profile_delete'),
 
     path('current_schedule', current_schedule_pick, name='current_schedule_pick'),
+
+    path('schedule_detail/add', schedule_detail_add, name='schedule_detail_add'),
+    path('schedule_detail/update', schedule_detail_update, name='schedule_detail_update'),
+    path('schedule_detail/delete', schedule_detail_delete, name='schedule_detail_delete'),
 ]

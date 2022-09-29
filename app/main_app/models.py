@@ -81,13 +81,13 @@ class ScheduleDetail(models.Model):
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
-    mon_time = models.CharField(max_length=8)
-    tue_time = models.CharField(max_length=8)
-    wed_time = models.CharField(max_length=8)
-    thr_time = models.CharField(max_length=8)
-    fri_time = models.CharField(max_length=8)
-    sat_time = models.CharField(max_length=8)
-    sun_time = models.CharField(max_length=8)
+    mon_time = models.CharField(max_length=8, null=True, blank=True)
+    tue_time = models.CharField(max_length=8, null=True, blank=True)
+    wed_time = models.CharField(max_length=8, null=True, blank=True)
+    thr_time = models.CharField(max_length=8, null=True, blank=True)
+    fri_time = models.CharField(max_length=8, null=True, blank=True)
+    sat_time = models.CharField(max_length=8, null=True, blank=True)
+    sun_time = models.CharField(max_length=8, null=True, blank=True)
 
     mon_duty = models.CharField(max_length=100, null=True, blank=True)
     tue_duty = models.CharField(max_length=100, null=True, blank=True)

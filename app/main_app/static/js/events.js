@@ -18,6 +18,7 @@ function edit_data(table_name, id) {
     form.appendChild(hidden_id);
 
     for (var i = 0; i < form_inputs.length; i++){
+        console.log(form_inputs.item(i));
         if (form_inputs.item(i).type == 'select-one') {
             options = form_inputs.item(i);
             for (var j = 0; j < options.length; j++) {
@@ -28,7 +29,11 @@ function edit_data(table_name, id) {
         } else if (form_inputs.item(i).type == 'date') {
             form_inputs.item(i).value = convert_date_to_iso(data.item(i).innerText);
         } else {
-            form_inputs.item(i).value = data.item(i).innerText;
+            if (data.item(i).innerText == 'Off') {
+                form_inputs.item(i).value = ''
+            } else {
+                form_inputs.item(i).value = data.item(i).innerText;
+            }
         }
     }
 

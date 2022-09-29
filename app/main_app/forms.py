@@ -1,3 +1,4 @@
+from dataclasses import field
 import re
 from django import forms
 
@@ -5,7 +6,8 @@ from .models import (
 	DefaultSchedule,
     Department,
     Employee,
-    ScheduleProfile
+    ScheduleProfile,
+    ScheduleDetail
 )
 
 class DefaultScheduleForm(forms.ModelForm):
@@ -60,3 +62,27 @@ class ScheduleProfileForm(forms.ModelForm):
 					'type': 'date'
 				}),
 		}
+
+class ScheduleDetailForm(forms.ModelForm):
+    class Meta:
+        model = ScheduleDetail
+        exclude = ['schedule_profile']
+        widgets = {
+            'employee': forms.Select(attrs={'class': 'form-select'}),
+
+            'mon_time': forms.TextInput(attrs={'list': 'mon-list', 'class': 'form-control'}),
+			'tue_time': forms.TextInput(attrs={'list': 'tue-list', 'class': 'form-control'}),
+			'wed_time': forms.TextInput(attrs={'list': 'wed-list', 'class': 'form-control'}),
+			'thr_time': forms.TextInput(attrs={'list': 'thr-list', 'class': 'form-control'}),
+			'fri_time': forms.TextInput(attrs={'list': 'fri-list', 'class': 'form-control'}),
+			'sat_time': forms.TextInput(attrs={'list': 'sat-list', 'class': 'form-control'}),
+			'sun_time': forms.TextInput(attrs={'list': 'sun-list', 'class': 'form-control'}),
+
+            'mon_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'tue_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'wed_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'thr_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'fri_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'sat_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'sun_duty': forms.TextInput(attrs={'class': 'form-control'}),
+        }

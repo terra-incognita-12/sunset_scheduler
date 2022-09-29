@@ -15,58 +15,103 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="table-responsive-md mb-2">
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Monday</th>
-					<th scope="col">Tuesday</th>
-					<th scope="col">Wednesday</th>
-					<th scope="col">Thursday</th>
-					<th scope="col">Friday</th>
-					<th scope="col">Saturday</th>
-					<th scope="col">Sunday</th>
-		            <th scope="col">Total Hours</th>
-				</tr>
-				<tr>
-					<th scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-		            <th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-</div>
+<form method="POST" action="{% url 'schedule_detail_delete' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="table-responsive-md mb-2">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Monday</th>
+                        <th scope="col">Tuesday</th>
+                        <th scope="col">Wednesday</th>
+                        <th scope="col">Thursday</th>
+                        <th scope="col">Friday</th>
+                        <th scope="col">Saturday</th>
+                        <th scope="col">Sunday</th>
+                        <th scope="col">Total Hours</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    <tr>
+                        <th scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th class="date-day-of-week" scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elem in schedule_details %}
+                        <tr>
+                            <th scope="row" id="{{ elem.id }}-schedule_detail_employee"><a class="" onclick="edit_data('schedule_detail', {{ elem.id }})">{{ elem.employee }}</a></th>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_mon_time">{{ elem.mon_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_mon_duty">{{ elem.mon_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.mon_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_tue_time">{{ elem.tue_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_tue_duty">{{ elem.tue_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.tue_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_wed_time">{{ elem.wed_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_wed_duty">{{ elem.wed_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.wed_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_thr_time">{{ elem.thr_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_thr_duty">{{ elem.thr_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.thr_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_fri_time">{{ elem.fri_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_fri_duty">{{ elem.fri_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.fri_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_sat_time">{{ elem.sat_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_sat_duty">{{ elem.sat_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.sat_time }}"></div>
+                            </td>
+                            <td class="text-center">
+                                <div id="{{ elem.id }}-schedule_detail_sun_time">{{ elem.sun_time|default_if_none:"Off" }}</div>
+                                <div id="{{ elem.id }}-schedule_detail_sun_duty">{{ elem.sun_duty|default_if_none:"" }}</div>
+                                <div class="schedule_time_beigns" schedule="{{ elem.sun_time }}"></div>
+                            </td>
+                            <td></td>
+                            <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="schedule_detail_delete"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div class="row">
-	<div class="col-xs-12 col-lg-4">
-		<div class="btn-group" role="group">
-			<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
-			<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-lg-6">
-        <div class="collapse mt-2" id="new-schedule-row-form-collapse">
-            <div class="card card-body">
-                <form id="" class="" method="" action="">
-                    <h5>Add new row</h5>
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit">Add</button>
-                </form>
+    <div class="row">
+        <div class="col-xs-12 col-lg-4">
+            <div class="btn-group" role="group">
+                <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
+                <input class="btn btn-sm btn-info" type="submit" value="- Delete selected" onclick="return confirm('Are you sure you want delete selected schedules?');">
             </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="collapse mt-2" id="new-schedule-row-form-collapse">
+        <div class="card card-body">
+            <form method="POST" action="{% url 'schedule_detail_add' %}">
+                <h5>Add new row</h5>
+                {% csrf_token %}
+                {% include 'index/schedule_detail_form.html' %}
+                <button class="btn btn-success" type="submit">Add</button>
+            </form>
         </div>
     </div>
 </div>

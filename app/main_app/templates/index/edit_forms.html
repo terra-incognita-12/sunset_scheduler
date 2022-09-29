@@ -78,3 +78,21 @@
 		</div>
 	</div>
 </div>
+<!-- SCHEDULE PROFILE -->
+<div class="modal" id="schedule_detail_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5>Update Schedule Details</h5>
+        		<button type="button" class="btn-close" onclick="close_modal()"></button>
+			</div>
+			<div class="modal-body">
+				<form id="schedule_detail_update_form" method="POST" action="{% url 'schedule_detail_update' %}">
+                    {% csrf_token %}
+		            {% include 'index/schedule_detail_form.html' %}
+					<button class="btn btn-success" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -11,6 +11,7 @@ from .forms import (
 	DepartmentForm,
 	EmployeeForm,
 	ScheduleProfileForm,
+	ScheduleDetailForm
 )
 
 from .models import (
@@ -19,6 +20,7 @@ from .models import (
 	Employee,
 	ScheduleProfile,
 	CurrentSchedule,
+	ScheduleDetail
 )
 
 @login_required(login_url='login_index')
@@ -28,11 +30,16 @@ def index(request):
 	employees = Employee.objects.filter(user=request.user)
 	schedule_profiles = ScheduleProfile.objects.filter(user=request.user)
 	current_schedule = CurrentSchedule.objects.filter(schedule_profile__user=request.user).first()
+	if current_schedule:
+		schedule_details = ScheduleDetail.objects.filter(schedule_profile=current_schedule.schedule_profile)
+	else:
+		schedule_details = []
 
 	default_schedule_form = DefaultScheduleForm()
 	department_form = DepartmentForm()
 	employee_form = EmployeeForm()
 	schedule_profile_form = ScheduleProfileForm()
+	schedule_detail_form = ScheduleDetailForm()
 
 	context = {
 		'default_schedules': default_schedules,
@@ -40,11 +47,13 @@ def index(request):
 		'employees': employees,
 		'schedule_profiles': schedule_profiles,
 		'current_schedule': current_schedule,
+		'schedule_details': schedule_details,
 
 		'default_schedule_form': default_schedule_form,
 		'department_form': department_form,
 		'employee_form': employee_form,
 		'schedule_profile_form': schedule_profile_form,
+		'schedule_detail_form': schedule_detail_form,
 	}
 
 	return render(request, 'index/index.html', context)
@@ -209,5 +218,43 @@ def current_schedule_pick(request):
 	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
 	current_schedule = CurrentSchedule(schedule_profile=schedule_profile)
 	current_schedule.save()
+	
+	return redirect('index')
+
+### SCHEDULE DETAIL ###
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def schedule_detail_add(request):
+	form = ScheduleDetailForm(request.POST)
+	pk = request.POST['schedule_profile']
+
+	schedule_profile = get_object_or_404(ScheduleProfile, pk=pk)
+	if form.is_valid():
+		schedule_detail = ScheduleDetail(schedule_profile=schedule_profile, **form.cleaned_data)
+		schedule_detail.save()
+	else:
+		messages.error(request, form.errors)
+	
+	return redirect('index')
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def schedule_detail_update(request):
+	pk = request.POST['hidden_id']
+	schedule_detail = get_object_or_404(ScheduleDetail, pk=pk)
+	form = ScheduleDetailForm(request.POST, instance=schedule_detail)
+	if form.is_valid():
+		schedule_detail.save()
+	else:
+		messages.error(request, form.errors)
+	return redirect('index')
+
+@login_required(login_url='login_index')
+@require_http_methods(['POST'])
+def schedule_detail_delete(request):
+	for pk in request.POST.getlist('schedule_detail_delete'):
+		schedule_detail = get_object_or_404(ScheduleDetail, pk=pk)
+		schedule_detail.delete()
 	
 	return redirect('index')
