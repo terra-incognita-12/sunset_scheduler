@@ -3,13 +3,14 @@ let modal = null;
 window.onload = function() {
     default_schedule_hours_total();
     dates_of_week();
+    weekday_hours_total();
     week_hours_total();
 }
 
 function edit_data(table_name, id) {
     const data = document.querySelectorAll(`[id^="${id}-${table_name}"]`);
     const form = document.getElementById(`${table_name}_update_form`);
-    let form_inputs = form.querySelectorAll("input[type=text], input[type=number], input[type=date], select");
+    const form_inputs = form.querySelectorAll("input[type=text], input[type=number], input[type=date], select");
     modal = document.getElementById(`${table_name}_modal`);
 
     const hidden_id = document.createElement("input");
@@ -61,6 +62,18 @@ function dates_of_week() {
     }
 }
 
+function weekday_hours_total() {
+    const day_elements = document.getElementsByClassName('weekday');
+    const weekday_total_elements = document.getElementsByClassName('weekday_total_hours');
+
+    for (var i = 0; i < day_elements.length; i++) {
+        var total = calc_schedule_total(day_elements.item(i).innerText);
+        if (total > 0) {
+            weekday_total_elements.item(i).innerText = `(${total})`;
+        }
+    }
+}
+
 function week_hours_total() {
     const day_elements = document.getElementsByClassName('weekday');
     const week_total_elements = document.querySelectorAll(`[id$="-week_total_hours"]`);
@@ -105,15 +118,15 @@ function convert_date_to_iso(date, add_days_to_date = 0) {
     date = date.replace(/[.,]/g, "");
     // Convert to yyyy-mm-dd
     // format_date = new Date(date).toISOString().split('T')[0];
-    format_date = new Date(date)
+    const format_date = new Date(date)
     format_date.setDate(format_date.getDate() + add_days_to_date);
     return format_date.toISOString().split('T')[0];
 }
 
 function get24from12(time) {
-    time_borders = time.split('-');
-    begin = time_borders[0];
-    end = time_borders[1];
+    const time_borders = time.split('-');
+    var begin = time_borders[0];
+    var end = time_borders[1];
 
     if (begin.includes('p') && parseInt(begin) != 12){
         begin = parseInt(begin) + 12;
@@ -140,10 +153,10 @@ function calc_schedule_total(schedule) {
     }
 
     schedule = get24from12(schedule);
-    begin = schedule[0];
-    end = schedule[1];
+    const begin = schedule[0];
+    const end = schedule[1];
 
-    total = end - begin;
+    var total = end - begin;
     if (total < 0) {
         total = end + (24 - begin);
     }

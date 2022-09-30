@@ -9,7 +9,7 @@
 	<div class="col-xs-12 col-lg-4 mb-3">
 		<div class="btn-group w-100" role="group">
 			<a class="btn btn-sm btn-primary" onclick="edit_data('schedule_profile', {{ current_schedule.schedule_profile.id }})">* Edit</a>
-			<a class="btn btn-sm btn-primary" href="">Export</a>
+			<a class="btn btn-sm btn-primary" href="{% url 'export_schedule' %}">Export</a>
 			<a class="btn btn-sm btn-info" href="{% url 'schedule_profile_delete' current_schedule.schedule_profile.id %}" onclick="return confirm('Are you sure you want delete {{ current_schedule.schedule_profile.name }}?');">- Delete</a>
 		</div>
 	</div>
@@ -50,39 +50,53 @@
                         <tr>
                             <th scope="row" id="{{ elem.id }}-schedule_detail_employee"><a class="" onclick="edit_data('schedule_detail', {{ elem.id }})">{{ elem.employee }}</a></th>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_mon_time" class="weekday">{{ elem.mon_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_mon_time" class="weekday">{{ elem.mon_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_mon_duty">{{ elem.mon_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.mon_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_tue_time" class="weekday">{{ elem.tue_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_tue_time" class="weekday">{{ elem.tue_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_tue_duty">{{ elem.tue_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.tue_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_wed_time" class="weekday">{{ elem.wed_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_wed_time" class="weekday">{{ elem.wed_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_wed_duty">{{ elem.wed_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.wed_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_thr_time" class="weekday">{{ elem.thr_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_thr_time" class="weekday">{{ elem.thr_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_thr_duty">{{ elem.thr_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.thr_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_fri_time" class="weekday">{{ elem.fri_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_fri_time" class="weekday">{{ elem.fri_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>        
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_fri_duty">{{ elem.fri_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.fri_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_sat_time" class="weekday">{{ elem.sat_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_sat_time" class="weekday">{{ elem.sat_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_sat_duty">{{ elem.sat_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.sat_time }}"></div>
                             </td>
                             <td class="text-center">
-                                <div id="{{ elem.id }}-schedule_detail_sun_time" class="weekday">{{ elem.sun_time|default_if_none:"Off" }}</div>
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_sun_time" class="weekday">{{ elem.sun_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
                                 <div id="{{ elem.id }}-schedule_detail_sun_duty">{{ elem.sun_duty|default_if_none:"" }}</div>
-                                <div class="schedule_time_beigns" schedule="{{ elem.sun_time }}"></div>
                             </td>
                             <td class="text-center" id="{{ elem.id }}-week_total_hours"></td>
                             <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="schedule_detail_delete"></td>

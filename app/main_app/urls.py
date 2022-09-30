@@ -25,6 +25,8 @@ from .views import (
     schedule_detail_add,
     schedule_detail_update,
     schedule_detail_delete,
+
+    export_schedule
 )
 
 urlpatterns = [
@@ -52,4 +54,6 @@ urlpatterns = [
     path('schedule_detail/add', schedule_detail_add, name='schedule_detail_add'),
     path('schedule_detail/update', schedule_detail_update, name='schedule_detail_update'),
     path('schedule_detail/delete', schedule_detail_delete, name='schedule_detail_delete'),
+
+    path('export_schedule/', export_schedule, name='export_schedule'),
 ]
