@@ -69,3 +69,43 @@ class RegisterForm(UserCreationForm):
 			return username
 		
 		raise forms.ValidationError(f'Username {username} is already in use')
+
+class ChangeCompanyNameForm(forms.ModelForm):
+	password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+	class Meta:
+		model = CustomUser
+		fields = ['company_name', 'password']
+		widgets = {
+			'company_name': forms.TextInput(attrs={'class': 'form-control'})
+		}
+
+	def __init__(self, *args, **kwargs):
+	    super(ChangeCompanyNameForm, self).__init__(*args, **kwargs)
+	    self.fields['company_name'].label = 'New company name'
+
+class ChangeUsernameForm(forms.ModelForm):
+	password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+	class Meta:
+		model = CustomUser
+		fields = ['username', 'password']
+		widgets = {
+			'username': forms.TextInput(attrs={'class': 'form-control'})
+		}
+
+	def __init__(self, *args, **kwargs):
+	    super(ChangeUsernameForm, self).__init__(*args, **kwargs)
+	    self.fields['username'].label = 'New username'
+
+	def clean_username(self):
+		username = self.cleaned_data.get('username')
+
+		if len(username) < 8 or len(username) > 30:
+			raise forms.ValidationError('Username should be longer than 8 and less than 30 symbols')
+
+		patt = re.search("^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", username)
+		if not patt:
+			raise forms.ValidationError("Username allowed letters, digits, also dot and underscore (can't duplicate, go one after another, be last or first symbol)")
+
+		return username

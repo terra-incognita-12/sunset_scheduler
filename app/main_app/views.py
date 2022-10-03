@@ -24,6 +24,11 @@ from .models import (
 	ScheduleDetail
 )
 
+from users.forms import (
+	ChangeCompanyNameForm,
+	ChangeUsernameForm,
+)
+
 @login_required(login_url='login_index')
 def index(request):
 	default_schedules = DefaultSchedule.objects.filter(user=request.user)
@@ -61,7 +66,16 @@ def index(request):
 
 @login_required(login_url='login_index')
 def settings(request):
-	return render(request, 'settings.html', {})
+
+	change_company_name_form = ChangeCompanyNameForm()
+	change_username_form = ChangeUsernameForm()
+
+	context = {
+		'change_company_name_form': change_company_name_form,
+		'change_username_form': change_username_form,
+	}
+
+	return render(request, 'settings.html', context)
 
 ### DEFAULT SCHEDULE ###
 

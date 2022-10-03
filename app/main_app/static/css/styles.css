@@ -5,3 +5,8 @@
 .modal {
     background-color: rgba(0,0,0,0.4);
 }
+
+.settings-span {
+	font-size: 20px;
+	font-style: italic;
+}

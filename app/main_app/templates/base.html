@@ -12,6 +12,12 @@
 	{% include 'index/edit_forms.html' %}
 	{% include 'index/navbar.html' %}
 	<div class="container-fluid">
+		{% for message in messages %}
+		    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+		        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		        {{ message }}
+		    </div>
+		{% endfor %}
 		{% block content %}
 		{% endblock %}
 	</div>

@@ -9,6 +9,8 @@ from .views import (
     activation,
     resend_activation,
     activation_done,
+    change_company_name,
+    change_username,
 )
 
 urlpatterns = [
@@ -27,4 +29,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset/password_reset_complete.html'), 
      name='password_reset_complete'),
+
+    path('change_company_name/', change_company_name, name='change_company_name'),
+    path('change_username/', change_username, name='change_username'),
 ]

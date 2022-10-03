@@ -16,9 +16,9 @@ from .decorators import unauthenticated_user
 from .forms import (
 	RegisterForm,
 	LoginForm,
+	ChangeCompanyNameForm,
+	ChangeUsernameForm,
 )
-
-######## Main pages ########
 
 @unauthenticated_user
 def login_index(request):
@@ -32,7 +32,56 @@ def login_index(request):
 
 	return render(request, 'users/login_index.html', context)	
 
-### login ###
+### CHANGE ###
+
+@login_required(login_url='login_index')
+def change_company_name(request):
+	User = get_user_model()
+
+	form = ChangeCompanyNameForm(request.POST)
+	if form.is_valid():
+		email = request.POST['email']
+		password = request.POST['password']
+		company_name = request.POST['company_name']
+		if not authenticate(email=email, password=password):
+			messages.error(request, 'Wrong password')
+		else:
+			user = User.objects.get(email=email)
+			user.company_name = company_name
+			user.save()
+			messages.success(request, 'Comapny changed successfully')
+	else:
+		messages.error(request, form.errors)
+
+	return redirect('settings')
+
+@login_required(login_url='login_index')
+def change_username(request):
+	User = get_user_model()
+
+	form = ChangeUsernameForm(request.POST)
+	if form.is_valid():
+		email = request.POST['email']
+		password = request.POST['password']
+		username = request.POST['username']
+		if not authenticate(email=email, password=password):
+			messages.error(request, 'Wrong password')
+		else:
+			user_check_duplicate = User.objects.filter(username=username).first()
+			if user_check_duplicate:
+				messages.error(request, f'Username {username} is already in use')
+			else:
+				user = User.objects.get(email=email)
+				user.username = username
+				user.save()
+				messages.success(request, 'Comapny changed successfully')
+	else:
+		messages.error(request, form.errors)
+
+	return redirect('settings')
+
+
+### LOGIN ###
 
 @unauthenticated_user
 def login(request):
@@ -55,7 +104,7 @@ def logout(request):
 	logout_django(request)
 	return redirect('login_index')
 
-### register ###
+### REGISTER ###
 
 @unauthenticated_user
 def register(request):
@@ -102,7 +151,7 @@ def activation_done(request, uidb64, token):
 
 	return redirect('login_index')
 
-######## Secondary ########
+######## SECONDARY ########
 
 def send_email_activation(request, user, email):
 	mail_subject = 'Activate your user account'

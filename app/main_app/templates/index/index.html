@@ -2,15 +2,8 @@
 
 {% block content %}
 
-{% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        {{ message }}
-    </div>
-{% endfor %}
-
 <div class="row mt-3 mb-4">
-	<h2 class="text-center"><b>Business information</b></h2>
+	<h2 class="text-center"><b>{{ request.user.company_name }} information</b></h2>
 </div>
 
 <!-- TOP LEVEL -->

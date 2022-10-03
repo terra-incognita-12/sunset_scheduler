@@ -1,7 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-	<h1>Hello!</h1>
+<div class="container mt-3">
+	<h2>Company name</h2>
+	<div class="row mt-3">
+		<div class="col-xs-12 col-md">
+			<span class="settings-span">{{ request.user.company_name }}</span>
+		</div>
+		<div class="col-xs-12 col-lg-2">
+			<a class="btn btn-primary w-100" data-bs-toggle="collapse" href="#change-company-name-form-collapse" role="button" aria-expanded="false" aria-controls="change-company-name-form-collapse">Change</a>
+		</div>
+	</div>
+	<div class="collapse mt-2" id="change-company-name-form-collapse">
+        <div class="card card-body">
+            <form method="POST" action="{% url 'change_company_name' %}">
+				{% csrf_token %}
+				<input type="hidden" name="email" value="{{ request.user.email }}">
+                <div class="mb-3">
+                    {{ change_company_name_form.as_table }}
+                </div>
+				<button class="btn btn-success" type="submit">Submit</button>
+			</form>
+        </div>
+    </div>
+	<hr>
+	<h2>Username</h2>
+	<div class="row mt-3">
+		<div class="col-xs-12 col-md">
+			<span class="settings-span">{{ request.user.username }}</span>
+		</div>
+		<div class="col-xs-12 col-lg-2">
+			<a class="btn btn-primary w-100" data-bs-toggle="collapse" href="#change-username-form-collapse" role="button" aria-expanded="false" aria-controls="change-username-name-form-collapse">Change</a>
+		</div>
+	</div>
+	<div class="collapse mt-2" id="change-username-form-collapse">
+        <div class="card card-body">
+            <form method="POST" action="{% url 'change_username' %}">
+				{% csrf_token %}
+				<input type="hidden" name="email" value="{{ request.user.email }}">
+                <div class="mb-3">
+                    {{ change_username_form.as_table }}
+                </div>
+				<button class="btn btn-success" type="submit">Submit</button>
+			</form>
+        </div>
+    </div>
+	<hr>
 </div>
 {% endblock %}
