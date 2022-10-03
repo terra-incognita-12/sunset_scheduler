@@ -38,12 +38,12 @@ class RegisterForm(UserCreationForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-	    super(RegisterForm, self).__init__(*args, **kwargs)
-	    self.fields['username'].help_text = mark_safe("<ul><li>Username should be longer than 8 and less than 30 symbols</li><li>Username allowed letters, digits, also dot and underscore (can't duplicate, go one after another, be last or first symbol)</li></ul>")
-	    self.fields['email'].required = True
-	    self.fields['company_name'].label = 'Comapny name'
-	    self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'id': 'register_pass1'})
-	    self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'id': 'register_pass2', 'onkeyup': 'password_matching();'})
+		super(RegisterForm, self).__init__(*args, **kwargs)
+		self.fields['username'].help_text = mark_safe("<ul><li>Username should be longer than 8 and less than 30 symbols</li><li>Username allowed letters, digits, also dot and underscore (can't duplicate, go one after another, be last or first symbol)</li></ul>")
+		self.fields['email'].required = True
+		self.fields['company_name'].label = 'Comapny name'
+		self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'id': 'register_pass1'})
+		self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'id': 'register_pass2', 'onkeyup': 'password_matching();'})
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email').lower()
@@ -81,8 +81,8 @@ class ChangeCompanyNameForm(forms.ModelForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-	    super(ChangeCompanyNameForm, self).__init__(*args, **kwargs)
-	    self.fields['company_name'].label = 'New company name'
+		super(ChangeCompanyNameForm, self).__init__(*args, **kwargs)
+		self.fields['company_name'].label = 'New company name'
 
 class ChangeUsernameForm(forms.ModelForm):
 	password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
@@ -95,8 +95,8 @@ class ChangeUsernameForm(forms.ModelForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-	    super(ChangeUsernameForm, self).__init__(*args, **kwargs)
-	    self.fields['username'].label = 'New username'
+		super(ChangeUsernameForm, self).__init__(*args, **kwargs)
+		self.fields['username'].label = 'New username'
 
 	def clean_username(self):
 		username = self.cleaned_data.get('username')
@@ -109,3 +109,17 @@ class ChangeUsernameForm(forms.ModelForm):
 			raise forms.ValidationError("Username allowed letters, digits, also dot and underscore (can't duplicate, go one after another, be last or first symbol)")
 
 		return username
+
+class ChangeEmailForm(forms.ModelForm):
+	password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+	class Meta:
+		model = CustomUser
+		fields = ['email', 'password']
+		widgets = {
+			'email': forms.EmailInput(attrs={'class': 'form-control'}),
+		}
+
+	def __init__(self, *args, **kwargs):
+		super(ChangeEmailForm, self).__init__(*args, **kwargs)
+		self.fields['email'].label = 'New email'

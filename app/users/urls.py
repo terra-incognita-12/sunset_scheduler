@@ -11,6 +11,9 @@ from .views import (
     activation_done,
     change_company_name,
     change_username,
+    change_email,
+    change_email_done,
+    password_change_done,
 )
 
 urlpatterns = [
@@ -32,4 +35,7 @@ urlpatterns = [
 
     path('change_company_name/', change_company_name, name='change_company_name'),
     path('change_username/', change_username, name='change_username'),
+    path('change_email', change_email, name='change_email'),
+    path('change_email_done/<uidb64>/<token>/<emailb64>', change_email_done, name='change_email_done'),
+    path('password_change/done/', password_change_done, name='password_change_done'),
 ]

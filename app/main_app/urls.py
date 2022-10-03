@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 from .views import (
     index,
@@ -26,7 +27,7 @@ from .views import (
     schedule_detail_update,
     schedule_detail_delete,
 
-    export_schedule
+    export_schedule,
 )
 
 urlpatterns = [
@@ -56,4 +57,7 @@ urlpatterns = [
     path('schedule_detail/delete', schedule_detail_delete, name='schedule_detail_delete'),
 
     path('export_schedule/', export_schedule, name='export_schedule'),
+
+    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='settings/password_change.html'), 
+    name='password_change'),
 ]

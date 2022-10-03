@@ -27,6 +27,7 @@ from .models import (
 from users.forms import (
 	ChangeCompanyNameForm,
 	ChangeUsernameForm,
+	ChangeEmailForm,
 )
 
 @login_required(login_url='login_index')
@@ -69,13 +70,15 @@ def settings(request):
 
 	change_company_name_form = ChangeCompanyNameForm()
 	change_username_form = ChangeUsernameForm()
+	change_email_form = ChangeEmailForm()
 
 	context = {
 		'change_company_name_form': change_company_name_form,
 		'change_username_form': change_username_form,
+		'change_email_form': change_email_form
 	}
 
-	return render(request, 'settings.html', context)
+	return render(request, 'settings/settings.html', context)
 
 ### DEFAULT SCHEDULE ###
 
@@ -92,7 +95,7 @@ def default_schedule_add(request):
 	return redirect('index')
 
 @login_required(login_url='login_index')
-@require_http_methods(['POST'])
+
 def default_schedule_update(request):
 	pk = request.POST['hidden_id']
 	default_schedule = get_object_or_404(DefaultSchedule, pk=pk)
@@ -288,49 +291,49 @@ def schedule_detail_delete(request):
 
 @login_required(login_url='login_index')
 def export_schedule(request):
-    schedule_fields = ['Name', 'Number', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
-    
-    current_schedule = CurrentSchedule.objects.values_list('schedule_profile', 'schedule_profile__begin_date', 'schedule_profile__name').first()
-    date_list = [current_schedule[1]+timedelta(days=i) for i in range(0, 7)]
-    schedule = ScheduleDetail.objects.filter(schedule_profile=current_schedule[0]).values_list(
-        'employee__name', 'employee__number',
-        'mon_time', 'mon_duty', 'tue_time', 'tue_duty',
-        'wed_time', 'wed_duty', 'thr_time', 'thr_duty',
-        'fri_time', 'fri_duty', 'sat_time', 'sat_duty',
-        'sun_time', 'sun_duty',
-    )
-    
-    dates_row = []
-    dates_row.append("")
-    dates_row.append("")
-    for elem in date_list:
-        dates_row.append(elem.strftime("%m/%d/%Y"))
-    # dates_row.append("")
+	schedule_fields = ['Name', 'Number', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
+	
+	current_schedule = CurrentSchedule.objects.values_list('schedule_profile', 'schedule_profile__begin_date', 'schedule_profile__name').first()
+	date_list = [current_schedule[1]+timedelta(days=i) for i in range(0, 7)]
+	schedule = ScheduleDetail.objects.filter(schedule_profile=current_schedule[0]).values_list(
+		'employee__name', 'employee__number',
+		'mon_time', 'mon_duty', 'tue_time', 'tue_duty',
+		'wed_time', 'wed_duty', 'thr_time', 'thr_duty',
+		'fri_time', 'fri_duty', 'sat_time', 'sat_duty',
+		'sun_time', 'sun_duty',
+	)
+	
+	dates_row = []
+	dates_row.append("")
+	dates_row.append("")
+	for elem in date_list:
+		dates_row.append(elem.strftime("%m/%d/%Y"))
+	# dates_row.append("")
 
-    schedule_rows = []
-    for line in list(schedule):
-        row = []
-        # name
-        row.append(line[0])
-        # number
-        row.append(line[1])
-        for i in range(2, len(line)-1, 2):
-            time = line[i]
-            duty = line[i+1]
-            if not time:
-                row.append('Off')
-            elif not duty: 
-                row.append(f'{time}')
-            else:
-                row.append(f'{line[i]}\n{line[i+1]}')
-        schedule_rows.append(row)
+	schedule_rows = []
+	for line in list(schedule):
+		row = []
+		# name
+		row.append(line[0])
+		# number
+		row.append(line[1])
+		for i in range(2, len(line)-1, 2):
+			time = line[i]
+			duty = line[i+1]
+			if not time:
+				row.append('Off')
+			elif not duty: 
+				row.append(f'{time}')
+			else:
+				row.append(f'{line[i]}\n{line[i+1]}')
+		schedule_rows.append(row)
 
-    with open('foo.csv', 'w') as csv_file:
-        csvwriter = csv.writer(csv_file)
-        csvwriter.writerow(['Schedule ', current_schedule[2]])
-        csvwriter.writerow(['Starts ', current_schedule[1].strftime("%m/%d/%Y")])
-        csvwriter.writerow(schedule_fields)
-        csvwriter.writerow(dates_row)
-        csvwriter.writerows(schedule_rows)
+	with open('foo.csv', 'w') as csv_file:
+		csvwriter = csv.writer(csv_file)
+		csvwriter.writerow(['Schedule ', current_schedule[2]])
+		csvwriter.writerow(['Starts ', current_schedule[1].strftime("%m/%d/%Y")])
+		csvwriter.writerow(schedule_fields)
+		csvwriter.writerow(dates_row)
+		csvwriter.writerows(schedule_rows)
 
-    return redirect('index')
+	return redirect('index')
