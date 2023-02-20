@@ -16,9 +16,10 @@ from .decorators import unauthenticated_user
 from .forms import (
 	RegisterForm,
 	LoginForm,
+	ChangeCompanyNameForm,
+	ChangeUsernameForm,
+	ChangeEmailForm,
 )
-
-######## Main pages ########
 
 @unauthenticated_user
 def login_index(request):
@@ -32,7 +33,106 @@ def login_index(request):
 
 	return render(request, 'users/login_index.html', context)	
 
-### login ###
+### CHANGE ###
+
+@login_required(login_url='login_index')
+def change_company_name(request):
+	User = get_user_model()
+
+	form = ChangeCompanyNameForm(request.POST)
+	if form.is_valid():
+		email = request.POST['email']
+		password = form.cleaned_data.get('password')
+		company_name = form.cleaned_data.get('company_name')
+		if not authenticate(email=email, password=password):
+			messages.error(request, 'Wrong password')
+		else:
+			user = User.objects.get(email=email)
+			user.company_name = company_name
+			user.save()
+			messages.success(request, 'Comapny changed successfully')
+	else:
+		messages.error(request, form.errors)
+
+	return redirect('settings')
+
+@login_required(login_url='login_index')
+def change_username(request):
+	User = get_user_model()
+
+	form = ChangeUsernameForm(request.POST)
+	if form.is_valid():
+		email = request.POST['email']
+		password = form.cleaned_data.get('password')
+		username = form.cleaned_data.get('username')
+		if not authenticate(email=email, password=password):
+			messages.error(request, 'Wrong password')
+		else:
+			user_check_duplicate = User.objects.filter(username=username).first()
+			if user_check_duplicate:
+				messages.error(request, f'Username {username} is already in use')
+			else:
+				user = User.objects.get(email=email)
+				user.username = username
+				user.save()
+				messages.success(request, 'Username changed successfully')
+	else:
+		messages.error(request, form.errors)
+
+	return redirect('settings')
+
+@login_required(login_url='login_index')
+def change_email(request):
+	User = get_user_model()
+
+	form = ChangeEmailForm(request.POST)
+	if form.is_valid():
+		email = request.POST['old_email']
+		new_email = form.cleaned_data.get('email')
+		password = form.cleaned_data.get('password')
+		if not authenticate(email=email, password=password):
+			messages.error(request, 'Wrong password')
+		else:
+			user_check_duplicate = User.objects.filter(email=new_email).first()
+			if user_check_duplicate:
+				messages.error(request, f'Email {new_email} is already in use')
+			else:
+				user = User.objects.get(email=email)
+				send_email_activation(request, user, new_email, is_change_email=True)
+				messages.success(request, f'Activation link was sent to {new_email}')
+
+	else:
+		messages.error(request, form.errors)
+
+	return redirect('settings')
+
+@login_required(login_url='login_index')
+def change_email_done(request, uidb64, token, emailb64):
+	User = get_user_model()
+	
+	try:
+		uid = force_bytes(urlsafe_base64_decode(uidb64))
+		user = User.objects.get(pk=uid)
+	except:
+		user = None
+
+	if user and account_activation_token.check_token(user, token):
+		email = urlsafe_base64_decode(emailb64)
+		user.email = email.decode()
+		user.save()
+
+		messages.success(request, 'Email changed successfully')
+	else:
+		messages.error(request, 'Activation link is invalid')
+
+	return redirect('settings')
+
+@login_required(login_url='login_index')
+def password_change_done(request):
+	messages.success(request, 'Password changed successfully')
+	return redirect('settings')
+
+### LOGIN ###
 
 @unauthenticated_user
 def login(request):
@@ -55,7 +155,7 @@ def logout(request):
 	logout_django(request)
 	return redirect('login_index')
 
-### register ###
+### REGISTER ###
 
 @unauthenticated_user
 def register(request):
@@ -102,16 +202,23 @@ def activation_done(request, uidb64, token):
 
 	return redirect('login_index')
 
-######## Secondary ########
+######## SECONDARY ########
 
-def send_email_activation(request, user, email):
-	mail_subject = 'Activate your user account'
-	message = render_to_string('users/mail_activation.html', {
+def send_email_activation(request, user, email, is_change_email=False):
+	if is_change_email:
+		mail_subject = 'Change your email'
+		template_name = 'change_mail_activation'
+	else:
+		mail_subject = 'Activate your user account'
+		template_name = 'mail_activation'
+
+	message = render_to_string(f'users/activation/{template_name}.html', {
 		'user': user.username,
 		'domain': get_current_site(request).domain,
 		'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 		'token': account_activation_token.make_token(user),
-		'protocol': 'https' if request.is_secure() else 'http'
+		'protocol': 'https' if request.is_secure() else 'http',
+		'email': urlsafe_base64_encode(force_bytes(email))
 	})
 	email = EmailMessage(mail_subject, message, to=[email])
 	if email.send():
