@@ -121,4 +121,3 @@ class ScheduleDetailForm(forms.ModelForm):
                 raise forms.ValidationError(f'Incorrect format time: "{time_list[i]}", corr. example: "11a-9p"')
 
         return self.cleaned_data
-            
