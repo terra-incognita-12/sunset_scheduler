@@ -1,6 +1,6 @@
 <!-- DEFAULT SCHEDULE -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Default schedules</h3>
+	<h3>Default schedules <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#default_schedule_info">?</button></h3>
     <form method="POST" action="{% url 'default_schedule_delete' %}">
         {% csrf_token %}
         <div class="table-responsive">
@@ -45,7 +45,7 @@
 </div>
 <!-- EMPLOYEES -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Employees</h3>
+	<h3>Employees <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#employee_info">?</button></h3>
     <form method="POST" action="{% url 'employee_delete' %}">
         {% csrf_token %}
         <div class="table-responsive">
@@ -90,7 +90,7 @@
 </div>
 <!-- DEPARTMENTS -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Departments</h3>
+	<h3>Departments <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#department_info">?</button></h3>
     <form method="POST" action="{% url 'department_delete' %}">
         {% csrf_token %}
         <div class="table-responsive">

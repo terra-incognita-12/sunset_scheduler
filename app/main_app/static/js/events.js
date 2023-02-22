@@ -3,6 +3,7 @@ let modal = null;
 window.onload = function() {
     default_schedule_hours_total();
     dates_of_week();
+    weekdays_name();
     weekday_hours_total();
     week_hours_total();
 }
@@ -62,6 +63,15 @@ function dates_of_week() {
     }
 }
 
+function weekdays_name() {
+    const date = document.querySelector(`[id$="-schedule_profile_begin_date"`).innerText;
+    const date_elemetns = document.getElementsByClassName('weekday_name');
+
+    for (var i = 0; i < date_elemetns.length; i++) {
+        date_elemetns.item(i).innerText = convert_date_to_week_name(date, i);
+    }
+}
+
 function weekday_hours_total() {
     const day_elements = document.getElementsByClassName('weekday');
     const weekday_total_elements = document.getElementsByClassName('weekday_total_hours');
@@ -117,10 +127,18 @@ function convert_date_to_iso(date, add_days_to_date = 0) {
     // Get rid of punctuation marks in date (origin format: Aug. 1, 2022)
     date = date.replace(/[.,]/g, "");
     // Convert to yyyy-mm-dd
-    // format_date = new Date(date).toISOString().split('T')[0];
     const format_date = new Date(date)
     format_date.setDate(format_date.getDate() + add_days_to_date);
+    // console.log(format_date.toISOString())
+    console.log(format_date.toLocaleDateString('en-US', { weekday: 'long' }))
     return format_date.toISOString().split('T')[0];
+}
+
+function convert_date_to_week_name(date, add_days_to_date = 0) {
+    date = date.replace(/[.,]/g, "");
+    const format_date = new Date(date)
+    format_date.setDate(format_date.getDate() + add_days_to_date);
+    return format_date.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
 function get24from12(time) {
