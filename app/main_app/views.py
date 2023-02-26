@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse
 
 from .forms import (
 	DefaultScheduleForm,
@@ -90,8 +91,9 @@ def default_schedule_add(request):
 		default_schedule = DefaultSchedule(user=request.user, **form.cleaned_data)
 		default_schedule.save()
 	else:
-		messages.error(request, form.errors)
-	
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
+
 	return redirect('index')
 
 @login_required(login_url='login_index')
@@ -103,7 +105,8 @@ def default_schedule_update(request):
 	if form.is_valid():
 		default_schedule.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	return redirect('index') 
 
 @login_required(login_url='login_index')
@@ -125,7 +128,8 @@ def department_add(request):
 		department = Department(user=request.user, **form.cleaned_data)
 		department.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	
 	return redirect('index')
 
@@ -138,7 +142,8 @@ def department_update(request):
 	if form.is_valid():
 		department.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	return redirect('index')
 
 @login_required(login_url='login_index')
@@ -160,7 +165,8 @@ def employee_add(request):
 		employee = Employee(user=request.user, **form.cleaned_data)
 		employee.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	
 	return redirect('index')
 
@@ -173,7 +179,8 @@ def employee_update(request):
 	if form.is_valid():
 		employee.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	return redirect('index')
 
 @login_required(login_url='login_index')
@@ -195,7 +202,8 @@ def schedule_profile_add(request):
 		schedule_profile = ScheduleProfile(user=request.user, **form.cleaned_data)
 		schedule_profile.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	
 	return redirect('index')
 
@@ -208,7 +216,8 @@ def schedule_profile_update(request):
 	if form.is_valid():
 		schedule_profile.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	return redirect('index')
 
 @login_required(login_url='login_index')
@@ -255,7 +264,8 @@ def schedule_detail_add(request):
 			schedule_detail = ScheduleDetail(schedule_profile=schedule_profile, **form.cleaned_data)
 			schedule_detail.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	
 	return redirect('index')
 
@@ -274,7 +284,8 @@ def schedule_detail_update(request):
 		else:
 			schedule_detail.save()
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 			
 	return redirect('index')
 
@@ -291,16 +302,21 @@ def schedule_detail_delete(request):
 
 @login_required(login_url='login_index')
 def export_schedule(request):
-	schedule_fields = ['Name', 'Number', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
+	schedule_fields = ['Name', 'Number']
 	
 	current_schedule = CurrentSchedule.objects.values_list('schedule_profile', 'schedule_profile__begin_date', 'schedule_profile__name').first()
+
+	for i in range(0, 7):
+		dt = current_schedule[1]+timedelta(days=i)
+		schedule_fields.append(str(dt.strftime('%A')))
+
 	date_list = [current_schedule[1]+timedelta(days=i) for i in range(0, 7)]
 	schedule = ScheduleDetail.objects.filter(schedule_profile=current_schedule[0]).values_list(
 		'employee__name', 'employee__number',
-		'mon_time', 'mon_duty', 'tue_time', 'tue_duty',
-		'wed_time', 'wed_duty', 'thr_time', 'thr_duty',
-		'fri_time', 'fri_duty', 'sat_time', 'sat_duty',
-		'sun_time', 'sun_duty',
+		'day_1_time', 'day_1_duty', 'day_2_time', 'day_2_duty',
+		'day_3_time', 'day_3_duty', 'day_4_time', 'day_4_duty',
+		'day_5_time', 'day_5_duty', 'day_6_time', 'day_6_duty',
+		'day_7_time', 'day_7_duty',
 	)
 	
 	dates_row = []
@@ -308,7 +324,6 @@ def export_schedule(request):
 	dates_row.append("")
 	for elem in date_list:
 		dates_row.append(elem.strftime("%m/%d/%Y"))
-	# dates_row.append("")
 
 	schedule_rows = []
 	for line in list(schedule):
@@ -328,12 +343,28 @@ def export_schedule(request):
 				row.append(f'{line[i]}\n{line[i+1]}')
 		schedule_rows.append(row)
 
-	with open('foo.csv', 'w') as csv_file:
-		csvwriter = csv.writer(csv_file)
-		csvwriter.writerow(['Schedule ', current_schedule[2]])
-		csvwriter.writerow(['Starts ', current_schedule[1].strftime("%m/%d/%Y")])
-		csvwriter.writerow(schedule_fields)
-		csvwriter.writerow(dates_row)
-		csvwriter.writerows(schedule_rows)
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = f'attachment; filename={current_schedule[2]}.csv'
 
-	return redirect('index')
+	writer = csv.writer(response)
+	
+	writer.writerow(['Schedule ', current_schedule[2]])
+	writer.writerow(['Starts ', current_schedule[1].strftime("%m/%d/%Y")])
+	writer.writerow(schedule_fields)
+	writer.writerow(dates_row)
+	writer.writerows(schedule_rows)
+
+	return response
+
+######## SECONDARY ########
+
+def get_errors(form_errors):
+	errors = ""
+
+	for elem in form_errors.get_json_data(escape_html=False).items():
+		for i in range(0, len(elem)):
+			try:
+				errors += f"<p>{elem[i][0]['message']}</p>"
+			except TypeError: continue
+	
+	return errors

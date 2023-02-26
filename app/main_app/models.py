@@ -81,21 +81,21 @@ class ScheduleDetail(models.Model):
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
-    mon_time = models.CharField(max_length=8, null=True, blank=True)
-    tue_time = models.CharField(max_length=8, null=True, blank=True)
-    wed_time = models.CharField(max_length=8, null=True, blank=True)
-    thr_time = models.CharField(max_length=8, null=True, blank=True)
-    fri_time = models.CharField(max_length=8, null=True, blank=True)
-    sat_time = models.CharField(max_length=8, null=True, blank=True)
-    sun_time = models.CharField(max_length=8, null=True, blank=True)
+    day_1_time = models.CharField(max_length=8, null=True, blank=True)
+    day_2_time = models.CharField(max_length=8, null=True, blank=True)
+    day_3_time = models.CharField(max_length=8, null=True, blank=True)
+    day_4_time = models.CharField(max_length=8, null=True, blank=True)
+    day_5_time = models.CharField(max_length=8, null=True, blank=True)
+    day_6_time = models.CharField(max_length=8, null=True, blank=True)
+    day_7_time = models.CharField(max_length=8, null=True, blank=True)
 
-    mon_duty = models.CharField(max_length=100, null=True, blank=True)
-    tue_duty = models.CharField(max_length=100, null=True, blank=True)
-    wed_duty = models.CharField(max_length=100, null=True, blank=True)
-    thr_duty = models.CharField(max_length=100, null=True, blank=True)
-    fri_duty = models.CharField(max_length=100, null=True, blank=True)
-    sat_duty = models.CharField(max_length=100, null=True, blank=True)
-    sun_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_1_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_2_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_3_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_4_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_5_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_6_duty = models.CharField(max_length=100, null=True, blank=True)
+    day_7_duty = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name = "Schedule Detail"

@@ -52,7 +52,8 @@ def change_company_name(request):
 			user.save()
 			messages.success(request, 'Comapny changed successfully')
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 
 	return redirect('settings')
 
@@ -77,7 +78,8 @@ def change_username(request):
 				user.save()
 				messages.success(request, 'Username changed successfully')
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 
 	return redirect('settings')
 
@@ -102,7 +104,8 @@ def change_email(request):
 				messages.success(request, f'Activation link was sent to {new_email}')
 
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 
 	return redirect('settings')
 
@@ -147,7 +150,8 @@ def login(request):
 			login_django(request, user)
 			return redirect('index')
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 	return redirect('login_index')
 
 @login_required(login_url='login_index')
@@ -167,7 +171,8 @@ def register(request):
 			return redirect('activation')
 		messages.error(request, 'Error occured while sending email, contact site administration please')
 	else:
-		messages.error(request, form.errors)
+		errors = get_errors(form.errors)
+		messages.error(request, errors)
 
 	return redirect('login_index')
 
@@ -224,3 +229,14 @@ def send_email_activation(request, user, email, is_change_email=False):
 	if email.send():
 		return True
 	return False
+
+def get_errors(form_errors):
+	errors = ""
+
+	for elem in form_errors.get_json_data(escape_html=False).items():
+		for i in range(0, len(elem)):
+			try:
+				errors += f"<p>{elem[i][0]['message']}</p>"
+			except TypeError: continue
+	
+	return errors

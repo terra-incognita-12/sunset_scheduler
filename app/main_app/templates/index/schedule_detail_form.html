@@ -9,100 +9,100 @@
 
 <div class="row">
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.mon_time.label_tag }}
-        {{ schedule_detail_form.mon_time }}
+        {{ schedule_detail_form.day_1_time.label_tag }}
+        {{ schedule_detail_form.day_1_time }}
 
-        <datalist id="mon-list">
+        <datalist id="day_1-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.mon_duty.label_tag }}
-        {{ schedule_detail_form.mon_duty }}
+        {{ schedule_detail_form.day_1_duty.label_tag }}
+        {{ schedule_detail_form.day_1_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.tue_time.label_tag }}
-        {{ schedule_detail_form.tue_time }}
+        {{ schedule_detail_form.day_2_time.label_tag }}
+        {{ schedule_detail_form.day_2_time }}
 
-        <datalist id="tue-list">
+        <datalist id="day_2-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.tue_duty.label_tag }}
-        {{ schedule_detail_form.tue_duty }}
+        {{ schedule_detail_form.day_2_duty.label_tag }}
+        {{ schedule_detail_form.day_2_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.wed_time.label_tag }}
-        {{ schedule_detail_form.wed_time }}
+        {{ schedule_detail_form.day_3_time.label_tag }}
+        {{ schedule_detail_form.day_3_time }}
 
-        <datalist id="wed-list">
+        <datalist id="day_3-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.wed_duty.label_tag }}
-        {{ schedule_detail_form.wed_duty }}
+        {{ schedule_detail_form.day_3_duty.label_tag }}
+        {{ schedule_detail_form.day_3_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.thr_time.label_tag }}
-        {{ schedule_detail_form.thr_time }}
+        {{ schedule_detail_form.day_4_time.label_tag }}
+        {{ schedule_detail_form.day_4_time }}
 
-        <datalist id="thr-list">
+        <datalist id="day_4-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.thr_duty.label_tag }}
-        {{ schedule_detail_form.thr_duty }}
+        {{ schedule_detail_form.day_4_duty.label_tag }}
+        {{ schedule_detail_form.day_4_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.fri_time.label_tag }}
-        {{ schedule_detail_form.fri_time }}
+        {{ schedule_detail_form.day_5_time.label_tag }}
+        {{ schedule_detail_form.day_5_time }}
 
-        <datalist id="fri-list">
+        <datalist id="day_5-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.fri_duty.label_tag }}
-        {{ schedule_detail_form.fri_duty }}
+        {{ schedule_detail_form.day_5_duty.label_tag }}
+        {{ schedule_detail_form.day_5_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-2">
-        {{ schedule_detail_form.sat_time.label_tag }}
-        {{ schedule_detail_form.sat_time }}
+        {{ schedule_detail_form.day_6_time.label_tag }}
+        {{ schedule_detail_form.day_6_time }}
 
-        <datalist id="sat-list">
+        <datalist id="day_6-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.sat_duty.label_tag }}
-        {{ schedule_detail_form.sat_duty }}
+        {{ schedule_detail_form.day_6_duty.label_tag }}
+        {{ schedule_detail_form.day_6_duty }}
     </div>
 
     <div class="col-lg col-md-12 mb-3">
-        {{ schedule_detail_form.sun_time.label_tag }}
-        {{ schedule_detail_form.sun_time }}
+        {{ schedule_detail_form.day_7_time.label_tag }}
+        {{ schedule_detail_form.day_7_time }}
 
-        <datalist id="sun-list">
+        <datalist id="day_7-list">
             {% for elem in default_schedules %}
                 <option value="{{ elem.schedule_time }}">{{ elem.name }}</option>
             {% endfor %}
         </datalist>
 
-        {{ schedule_detail_form.sun_duty.label_tag }}
-        {{ schedule_detail_form.sun_duty }}
+        {{ schedule_detail_form.day_7_duty.label_tag }}
+        {{ schedule_detail_form.day_7_duty }}
     </div>
 </div>

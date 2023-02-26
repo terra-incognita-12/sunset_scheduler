@@ -9,6 +9,14 @@
 </head>
 <body style="background-color: #D9AFD9; background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);">
 	<div class="container">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					{{ message|safe }}
+				</div>
+			{% endfor %}
+    	{% endif %}
 		{% block content %}
 		{% endblock %}
 	</div>

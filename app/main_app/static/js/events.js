@@ -129,8 +129,6 @@ function convert_date_to_iso(date, add_days_to_date = 0) {
     // Convert to yyyy-mm-dd
     const format_date = new Date(date)
     format_date.setDate(format_date.getDate() + add_days_to_date);
-    // console.log(format_date.toISOString())
-    console.log(format_date.toLocaleDateString('en-US', { weekday: 'long' }))
     return format_date.toISOString().split('T')[0];
 }
 

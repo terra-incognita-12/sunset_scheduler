@@ -70,41 +70,41 @@ class ScheduleDetailForm(forms.ModelForm):
         widgets = {
             'employee': forms.Select(attrs={'class': 'form-select'}),
 
-            'mon_time': forms.TextInput(attrs={'list': 'mon-list', 'class': 'form-control'}),
-			'tue_time': forms.TextInput(attrs={'list': 'tue-list', 'class': 'form-control'}),
-			'wed_time': forms.TextInput(attrs={'list': 'wed-list', 'class': 'form-control'}),
-			'thr_time': forms.TextInput(attrs={'list': 'thr-list', 'class': 'form-control'}),
-			'fri_time': forms.TextInput(attrs={'list': 'fri-list', 'class': 'form-control'}),
-			'sat_time': forms.TextInput(attrs={'list': 'sat-list', 'class': 'form-control'}),
-			'sun_time': forms.TextInput(attrs={'list': 'sun-list', 'class': 'form-control'}),
+            'day_1_time': forms.TextInput(attrs={'list': 'day_1-list', 'class': 'form-control'}),
+			'day_2_time': forms.TextInput(attrs={'list': 'day_2-list', 'class': 'form-control'}),
+			'day_3_time': forms.TextInput(attrs={'list': 'day_3-list', 'class': 'form-control'}),
+			'day_4_time': forms.TextInput(attrs={'list': 'day_4-list', 'class': 'form-control'}),
+			'day_5_time': forms.TextInput(attrs={'list': 'day_5-list', 'class': 'form-control'}),
+			'day_6_time': forms.TextInput(attrs={'list': 'day_6-list', 'class': 'form-control'}),
+			'day_7_time': forms.TextInput(attrs={'list': 'day_7-list', 'class': 'form-control'}),
 
-            'mon_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'tue_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'wed_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'thr_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'fri_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'sat_duty': forms.TextInput(attrs={'class': 'form-control'}),
-			'sun_duty': forms.TextInput(attrs={'class': 'form-control'}),
+            'day_1_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_2_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_3_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_4_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_5_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_6_duty': forms.TextInput(attrs={'class': 'form-control'}),
+			'day_7_duty': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def clean(self):
         time_list = [
-            self.cleaned_data.get('mon_time'),
-            self.cleaned_data.get('tue_time'),
-            self.cleaned_data.get('wed_time'),
-            self.cleaned_data.get('thr_time'),
-            self.cleaned_data.get('fri_time'),
-            self.cleaned_data.get('sat_time'),
-            self.cleaned_data.get('sun_time')
+            self.cleaned_data.get('day_1_time'),
+            self.cleaned_data.get('day_2_time'),
+            self.cleaned_data.get('day_3_time'),
+            self.cleaned_data.get('day_4_time'),
+            self.cleaned_data.get('day_5_time'),
+            self.cleaned_data.get('day_6_time'),
+            self.cleaned_data.get('day_7_time')
         ]
         duty_list = [
-            self.cleaned_data.get('mon_duty'),
-            self.cleaned_data.get('tue_duty'),
-            self.cleaned_data.get('wed_duty'),
-            self.cleaned_data.get('thr_duty'),
-            self.cleaned_data.get('fri_duty'),
-            self.cleaned_data.get('sat_duty'),
-            self.cleaned_data.get('sun_duty')
+            self.cleaned_data.get('day_1_duty'),
+            self.cleaned_data.get('day_2_duty'),
+            self.cleaned_data.get('day_3_duty'),
+            self.cleaned_data.get('day_4_duty'),
+            self.cleaned_data.get('day_5_duty'),
+            self.cleaned_data.get('day_6_duty'),
+            self.cleaned_data.get('day_7_duty')
         ]
 
         for i in range(len(time_list)):
