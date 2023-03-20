@@ -1,38 +1,42 @@
-<!-- DEFAULT TIME -->
+<!-- DEFAULT SCHEDULE -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Default schedules</h3>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Schedule</th>
-                    <th scope="col">Total Hours</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id=""><a class="" onclick="edit_data('default-schedule', 1)">Entity</a></th>
-                    <td id="">Entity</td>
-                    <td id="">Entity</td>
-                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-	<div class="btn-group" role="group">
-		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#defult-schedules-form-collapse" role="button" aria-expanded="false" aria-controls="defult-schedules-form-collapse">+ Add</a>
-		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
-	</div>
+	<h3>Default schedules <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#default_schedule_info">?</button></h3>
+    <form method="POST" action="{% url 'default_schedule_delete' %}">
+        {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Schedule</th>
+                        <th scope="col">Total Hours</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elem in default_schedules %}
+                        <tr>
+                            <th scope="row" id="{{ elem.id }}-default_schedule_name"><a class="" onclick="edit_data('default_schedule', {{ elem.id }})">{{ elem.name }}</a></th>
+                            <td id="{{ elem.id }}-default_schedule_time">{{ elem.schedule_time }}</td>
+                            <td id="{{ elem.id }}-default_schedule_total" schedule="{{ elem.schedule_time }}"></td>
+                            <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="default_schedule_delete"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#defult-schedules-form-collapse" role="button" aria-expanded="false" aria-controls="defult-schedules-form-collapse">+ Add</a>
+            <input class="btn btn-sm btn-info" type="submit" value="- Delete selected">
+        </div>
+    </form>
     <div class="collapse mt-2" id="defult-schedules-form-collapse">
         <div class="card card-body">
-            <form id="" class="" method="" action="">
+            <form method="POST" action="{% url 'default_schedule_add' %}">
                 <h5>Add new default schedule</h5>
 				{% csrf_token %}
                 <div class="mb-3">
-                    <label>Some label</label>
-                    <input type="text" name="text" class="form-control">
+                    {{ default_schedule_form.as_table }}
                 </div>
 				<button class="btn btn-success" type="submit">Add</button>
 			</form>
@@ -41,36 +45,44 @@
 </div>
 <!-- EMPLOYEES -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Employees</h3>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Department</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id=""><a class="" onclick="">Entity</a></th>
-                    <td id="">Entity</td>
-                    <td id="">Entity</td>
-                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-	<div class="btn-group" role="group">
-		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#employees-form-collapse" role="button" aria-expanded="false" aria-controls="employees-form-collapse">+ Add</a>
-		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
-	</div>
+	<h3>Employees <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#employee_info">?</button></h3>
+    <form method="POST" action="{% url 'employee_delete' %}">
+        {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Department</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elem in employees %}
+                        <tr>
+                            <th scope="row" id="{{ elem.id }}-employee_name"><a class="" onclick="edit_data('employee', {{ elem.id }})">{{ elem.name }}</a></th>
+                            <td id="{{ elem.id }}-employee_number">{{ elem.number }}</td>
+                            <td id="{{ elem.id }}-employee_department">{{ elem.department }}</td>
+                            <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="employee_delete"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#employees-form-collapse" role="button" aria-expanded="false" aria-controls="employees-form-collapse">+ Add</a>
+            <input class="btn btn-sm btn-info" type="submit" value="- Delete selected">
+        </div>
+    </form>
     <div class="collapse mt-2" id="employees-form-collapse">
         <div class="card card-body">
-            <form id="" class="" method="" action="">
+            <form method="POST" action="{% url 'employee_add' %}">
                 <h5>Add new employee</h5>
 				{% csrf_token %}
+                <div class="mb-3">
+                    {{ employee_form.as_table }}
+                </div>
 				<button class="btn btn-success" type="submit">Add</button>
 			</form>
         </div>
@@ -78,34 +90,42 @@
 </div>
 <!-- DEPARTMENTS -->
 <div class="col-xs-12 col-lg-4 mb-3">
-	<h3>Departments</h3>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Employees count</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id=""><a class="" onclick="">Entity</a></th>
-                    <td id="">Entity</td>
-                    <td><input class="form-check-input" type="checkbox" value="" name=""></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-	<div class="btn-group" role="group">
-		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#departments-form-collapse" role="button" aria-expanded="false" aria-controls="departments-form-collapse">+ Add</a>
-		<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
-	</div>
+	<h3>Departments <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#department_info">?</button></h3>
+    <form method="POST" action="{% url 'department_delete' %}">
+        {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Employees count</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elem in departments %}
+                        <tr>
+                            <th scope="row" id="{{ elem.id }}-department_name"><a class="" onclick="edit_data('department', {{ elem.id }})">{{ elem.name }}</a></th>
+                            <td id="">{{ elem.employees_count }}</td>
+                            <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="department_delete"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#departments-form-collapse" role="button" aria-expanded="false" aria-controls="departments-form-collapse">+ Add</a>
+            <input class="btn btn-sm btn-info" type="submit" value="- Delete selected">
+        </div>
+    </form>
     <div class="collapse mt-2" id="departments-form-collapse">
         <div class="card card-body">
-            <form id="" class="" method="" action="">
+            <form method="POST" action="{% url 'department_add' %}">
                 <h5>Add new department</h5>
 				{% csrf_token %}
+                <div class="mb-3">
+                    {{ department_form.as_table }}
+                </div>
 				<button class="btn btn-success" type="submit">Add</button>
 			</form>
         </div>

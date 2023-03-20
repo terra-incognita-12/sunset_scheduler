@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv(os.path.join(os.path.abspath('..'), '.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -25,9 +28,15 @@ SECRET_KEY = 'django-insecure-frxof#&cby-%$x%@=c_)*q$_xhf@9@x4xc-^8wnjx@57cj@af5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 15 minutes link expiration
+PASSWORD_RESET_TIMEOUT = 900
+
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'users.customuser'
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'main_app',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +87,12 @@ WSGI_APPLICATION = 'sunset_scheduler.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('SQL_DATABASE', BASE_DIR / 'db.sqlite3'),
+        'USER': os.getenv('SQL_USER', 'user'),
+        'PASSWORD': os.getenv('SQL_PASS', 'password'),
+        'HOST': os.getenv('SQL_HOST', 'localhost'),
+        'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 

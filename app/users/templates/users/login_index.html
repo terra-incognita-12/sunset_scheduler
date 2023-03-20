@@ -1,0 +1,80 @@
+{% extends 'users/users_base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="mt-5">
+        <h1 class="text-center">Welcome!</h1>
+    </div>
+    <div class="row mt-5">
+        <!-- SIGN IN -->
+
+        <div class="col-lg-6 col-xs-12 mb-3">
+            <a class="btn btn-primary w-100" data-bs-toggle="collapse" href="#signin-form-collapse" role="button" aria-expanded="false" aria-controls="signin-form-collapse"><b>Sign in</b> if you have an account</a>
+            <div class="collapse mt-2" id="signin-form-collapse">
+                <div class="card card-body">
+                    <h2 class="text-center">Login</h2> 
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            {{ login_form.email.label_tag }}
+                            {{ login_form.email }}
+                        </div>
+                        <div class="mb-1">
+                            {{ login_form.password.label_tag }}
+                            {{ login_form.password }}
+                        </div>
+                        <div class="mb-2">Forgot password? <a href="{% url 'password_reset' %}">Reset password</a></div>
+                        <input type="submit" value="Login" class="btn btn-success">
+                    </form>  
+                </div>  
+            </div>
+        </div>
+
+        <!-- SIGN UP -->
+        <div class="col-lg-6 col-xs-12 mb-3">
+            <a class="btn btn-secondary w-100" data-bs-toggle="collapse" href="#signup-form-collapse" role="button" aria-expanded="false" aria-controls="signup-form-collapse"><b>Sign up</b> if you don't have your scheduler yet!</a>
+            <div class="collapse mt-2" id="signup-form-collapse">
+                <div class="card card-body">
+                    <h2 class="text-center">Register</h2> 
+                    <form method="POST" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <div class="mb-2"> 
+                                {{ register_form.username.label_tag }}
+                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.username.help_text }}" data-bs-placement="left" data-bs-html="true">
+                                    {{ register_form.username }}
+                                </span>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.email.label_tag }}
+                                {{ register_form.email }}
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.password1.label_tag }}
+                                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="{{ register_form.password1.help_text }}" data-bs-placement="left" data-bs-html="true">
+                                    {{ register_form.password1 }}
+                                </span>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.password2.label_tag }}
+                                {{ register_form.password2 }}
+                                <div class="invalid-feedback">
+                                    Passwords don't match
+                                </div>
+                                <div class="valid-feedback">
+                                    Passwords match
+                                </div>
+                            </div>
+                            <div class="mb-2"> 
+                                {{ register_form.company_name.label_tag }}
+                                {{ register_form.company_name }}
+                            </div>
+                        </div>
+                        <input type="submit" value="Register" class="btn btn-success">
+                    </form>    
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,30 +1,30 @@
 <div class="col-xs-12 col-lg-4 mb-3">
-	<form class="">
+	<form method="POST" action="{% url 'current_schedule_pick' %}">
+		{% csrf_token %}
 		<div class="input-group input-group-sm">
 			<select class="form-select" name="schedule_select">
 		        <option value selected>--------</option>
+		        {% for elem in schedule_profiles %}
+		        	<option value="{{ elem.id }}">{{ elem.name }}</option>
+		        {% endfor %}
 		    </select>
 			<button class="btn btn-success" type="submit">Select</button>
 		</div>
 	</form>
 </div>
-<div class="col-xs-12 col-lg-4 mb-3 text-center">
-	<h2>Permanent schedule</h2>
-</div>
-<div class="col-xs-12 col-lg-4 mb-3">
-	<div class="btn-group w-100" role="group">
-		<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-form-collapse">+ Add</a>
-		<a class="btn btn-sm btn-primary" onclick="">* Edit</a>
-		<a class="btn btn-sm btn-primary" href="">Export</a>
-		<a class="btn btn-sm btn-info" href="">- Delete</a>
-	</div>
-    <div class="collapse mt-2" id="new-schedule-form-collapse">
+<div class="col-xs-12 col-lg-4">
+	<a class="btn btn-sm btn-primary w-100" data-bs-toggle="collapse" href="#new-schedule-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-form-collapse">+ Add</a>
+	<div class="collapse mt-2" id="new-schedule-form-collapse">
         <div class="card card-body">
-            <form id="" class="" method="" action="">
+            <form method="POST" action="{% url 'schedule_profile_add' %}">
                 <h5>Add new schedule</h5>
 				{% csrf_token %}
+				<div class="mb-3">
+					{{ schedule_profile_form.as_table }}
+				</div>
 				<button class="btn btn-success" type="submit">Add</button>
 			</form>
         </div>
     </div>
 </div>
+

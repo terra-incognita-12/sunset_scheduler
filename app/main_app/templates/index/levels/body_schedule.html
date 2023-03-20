@@ -1,61 +1,132 @@
-<div class="row">
+<div class="row mt-3">
 	<div class="col-12 text-start">
-		<h4>Begins <b id="">Today</b></h4>
+		<h2 id='{{ current_schedule.schedule_profile.id }}-schedule_profile_name'>{{ current_schedule.schedule_profile.name }}</h2>
+		<h4>Begins <b id="{{ current_schedule.schedule_profile.id }}-schedule_profile_begin_date">{{ current_schedule.schedule_profile.begin_date }}</b></h4>
 	</div>
 </div>
 
 <div class="row">
-	<div class="table-responsive-md mb-2">
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Monday</th>
-					<th scope="col">Tuesday</th>
-					<th scope="col">Wednesday</th>
-					<th scope="col">Thursday</th>
-					<th scope="col">Friday</th>
-					<th scope="col">Saturday</th>
-					<th scope="col">Sunday</th>
-		            <th scope="col">Total Hours</th>
-				</tr>
-				<tr>
-					<th scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-					<th class="date-day-of-week" scope="col"></th>
-		            <th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-xs-12 col-lg-4">
-		<div class="btn-group" role="group">
-			<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
-			<a class="btn btn-sm btn-info" onclick="">- Delete selected</a>
+	<div class="col-xs-12 col-lg-4 mb-3">
+		<div class="btn-group w-100" role="group">
+			<a class="btn btn-sm btn-primary" onclick="edit_data('schedule_profile', {{ current_schedule.schedule_profile.id }})">* Edit</a>
+			<a class="btn btn-sm btn-primary" href="{% url 'export_schedule' %}">Export</a>
+			<a class="btn btn-sm btn-info" href="{% url 'schedule_profile_delete' current_schedule.schedule_profile.id %}" onclick="return confirm('Are you sure you want delete {{ current_schedule.schedule_profile.name }}?');">- Delete</a>
+			<button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#schedule_info">Info</button>
 		</div>
 	</div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12 col-lg-6">
-        <div class="collapse mt-2" id="new-schedule-row-form-collapse">
-            <div class="card card-body">
-                <form id="" class="" method="" action="">
-                    <h5>Add new row</h5>
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit">Add</button>
-                </form>
+<form method="POST" action="{% url 'schedule_detail_delete' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="table-responsive-md mb-2">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th class="weekday_name" scope="col"></th>
+                        <th scope="col">Total Hours</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    <tr>
+                        <th scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th class="date_weekday" scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elem in schedule_details %}
+                        <tr>
+                            <th scope="row" id="{{ elem.id }}-schedule_detail_employee"><a class="" onclick="edit_data('schedule_detail', {{ elem.id }})">{{ elem.employee }}</a></th>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_1_time" class="weekday">{{ elem.day_1_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_1_duty">{{ elem.day_1_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_2_time" class="weekday">{{ elem.day_2_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_2_duty">{{ elem.day_2_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_3_time" class="weekday">{{ elem.day_3_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_3_duty">{{ elem.day_3_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_4_time" class="weekday">{{ elem.day_4_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_4_duty">{{ elem.day_4_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_5_time" class="weekday">{{ elem.day_5_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_5_duty">{{ elem.day_5_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_6_time" class="weekday">{{ elem.day_6_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_6_duty">{{ elem.day_6_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center">
+                                <div>
+                                    <span id="{{ elem.id }}-schedule_detail_day_7_time" class="weekday">{{ elem.day_7_time|default_if_none:"Off" }}</span>
+                                    <span class="weekday_total_hours"></span>
+                                </div>
+                                <div id="{{ elem.id }}-schedule_detail_day_7_duty">{{ elem.day_7_duty|default_if_none:"" }}</div>
+                            </td>
+                            <td class="text-center" id="{{ elem.id }}-week_total_hours"></td>
+                            <td><input class="form-check-input" type="checkbox" value="{{ elem.id }}" name="schedule_detail_delete"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-4">
+            <div class="btn-group" role="group">
+                <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#new-schedule-row-form-collapse" role="button" aria-expanded="false" aria-controls="new-schedule-row-form-collapse">+ Add new row</a>
+                <input class="btn btn-sm btn-info" type="submit" value="- Delete selected" onclick="return confirm('Are you sure you want delete selected schedules?');">
             </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="collapse mt-2" id="new-schedule-row-form-collapse">
+        <div class="card card-body">
+            <form method="POST" action="{% url 'schedule_detail_add' %}">
+                <h5>Add new row</h5>
+                {% csrf_token %}
+                {% include 'index/schedule_detail_form.html' %}
+                <button class="btn btn-success" type="submit">Add</button>
+            </form>
         </div>
     </div>
 </div>

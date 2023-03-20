@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi {{ user.username }}
+
+Please click on the link bellow to change your email:
+
+http://{{ domain }}{% url 'change_email_done' uidb64=uid token=token emailb64=email %}
+{% endautoescape %}
